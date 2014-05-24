@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
-
 public class Comav25 {
 
 	private static Comav25 instance = null;	
