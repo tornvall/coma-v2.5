@@ -3,6 +3,8 @@ package com.coma.client;
 import java.util.HashMap;
 import java.util.List;
 
+import com.coma.client.asisEvaluation.LogIn;
+import com.coma.client.asisEvaluation.User;
 import com.coma.client.oryxhandlers.LoadingCompleteEventListener;
 import com.coma.client.oryxhandlers.LoadingCompletehandler;
 import com.coma.client.widgets.AcceptProposalDialog;

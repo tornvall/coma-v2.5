@@ -28,7 +28,7 @@
   <stylesheet src="reset.css" />
   
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='com.coma.client.Main'/>
+  <entry-point class='com.coma.client.asisEvaluation.Main'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>

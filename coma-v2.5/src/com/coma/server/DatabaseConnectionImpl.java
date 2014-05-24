@@ -72,28 +72,6 @@ DatabaseConnection {
 	}
 
 	@Override
-	public String getPasswordForAuthorization(String email)throws IllegalArgumentException {
-		Connection dbCon = null;
-		String password = null;
-
-		String query = "SELECT userPassword FROM user WHERE userEmail = ?";
-		try{
-			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setString(1, email);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				password = rs.getString("userPassword");
-			}
-			return password;
-
-		} catch (SQLException ex) {
-			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-		}      
-		return null;
-	}
-
-	@Override
 	public int getUserID(String email) throws IllegalArgumentException {
 		Connection dbCon = null;
 		int userID = 0;

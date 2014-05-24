@@ -12,7 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface DatabaseConnection extends RemoteService {
 	void createNewUser(String name, String password) throws IllegalArgumentException;
 	int createNewGroup(int userID, String groupName);
-	String getPasswordForAuthorization(String email);
 	int getUserID(String email);
 	void saveModel(int groupID, int userID, String modelName, int modelType,
 			String modelString, int isProposal);

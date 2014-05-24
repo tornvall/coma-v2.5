@@ -1,4 +1,4 @@
-package com.coma.client;
+package com.coma.client.asisEvaluation;
 
 public class User {
 

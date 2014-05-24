@@ -2,6 +2,7 @@ package com.coma.client;
 
 import java.util.List;
 
+import com.coma.client.asisEvaluation.User;
 import com.coma.client.widgets.HandleGroupInvitesCellList;
 import com.coma.client.widgets.HandleGroupInvitesDialogBox;
 import com.coma.client.widgets.SwitchGroupDialogBox;

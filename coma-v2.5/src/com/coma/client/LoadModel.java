@@ -2,6 +2,7 @@ package com.coma.client;
 
 import java.util.HashMap;
 
+import com.coma.client.asisEvaluation.User;
 import com.coma.client.oryxhandlers.LoadingCompleteEventListener;
 import com.coma.client.oryxhandlers.LoadingCompletehandler;
 import com.coma.client.widgets.CallbackHandler;

@@ -5,7 +5,7 @@ import java.util.Date;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.HandleGroups;
-import com.coma.client.User;
+import com.coma.client.asisEvaluation.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.widget.core.client.Dialog;
