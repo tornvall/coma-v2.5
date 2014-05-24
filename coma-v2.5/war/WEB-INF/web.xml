@@ -13,12 +13,12 @@
   
   <servlet-mapping>
     <servlet-name>databaseServlet</servlet-name>
-    <url-pattern>/comav200/database</url-pattern>
+    <url-pattern>/comav25/database</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Comav200.html</welcome-file>
+    <welcome-file>Comav25.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

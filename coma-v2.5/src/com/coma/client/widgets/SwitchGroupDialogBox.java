@@ -2,12 +2,12 @@ package com.coma.client.widgets;
 
 import java.util.List;
 
-import com.coma.client.Comav200;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.LoadModel;
-import com.coma.client.WorkGroupInfo;
-import com.coma.client.asisEvaluation.User;
+import com.coma.client.User;
+import com.coma.v2.Comav200;
+import com.coma.v2.LoadModel;
+import com.coma.v2.WorkGroupInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ListBox;
 import com.sencha.gxt.widget.core.client.Dialog;

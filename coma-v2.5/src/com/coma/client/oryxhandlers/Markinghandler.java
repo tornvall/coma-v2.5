@@ -2,8 +2,8 @@ package com.coma.client.oryxhandlers;
 
 import java.util.HashMap;
 
-import com.coma.client.Comav200;
 import com.coma.client.widgets.CallbackHandler;
+import com.coma.v2.Comav200;
 
 
 /**

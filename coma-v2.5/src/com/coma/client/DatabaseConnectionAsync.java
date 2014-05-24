@@ -2,6 +2,9 @@ package com.coma.client;
 
 import java.util.List;
 
+import com.coma.v2.ModelInfo;
+import com.coma.v2.ProposalAvgVote;
+import com.coma.v2.WorkGroupInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -11,7 +14,8 @@ public interface DatabaseConnectionAsync {
 	void createNewGroup(int userID, String groupName, AsyncCallback<Integer> callback);
 	void createNewUser(String name, String password,
 			AsyncCallback<Void> callback);
-	void getUserID(String email, AsyncCallback<Integer> asyncCallback);	void saveModel(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal,
+	void getUserID(String email, AsyncCallback<Integer> asyncCallback);
+	void saveModel(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal,
 			AsyncCallback<Void> asyncCallback);
 	void loadGroupModel(int groupID, AsyncCallback<ModelInfo> asyncCallback);
 	void loadModel(int modelID, AsyncCallback<ModelInfo> asyncCallback);
@@ -43,5 +47,7 @@ public interface DatabaseConnectionAsync {
 	void getModelIDs(int groupID, AsyncCallback<List<Integer>> asyncCallback);
 	void getVotes(List<Integer> modelIDs,
 			AsyncCallback<List<ProposalAvgVote>> callback);
-	
+
+	void getUser(String email, AsyncCallback<User> asyncCallback);
+	void getUser(int id, AsyncCallback<User> asyncCallback);
 }

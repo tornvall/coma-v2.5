@@ -1,10 +1,10 @@
 package com.coma.client.widgets;
 
 
-import com.coma.client.Comav200;
-import com.coma.client.ModelInfo;
-import com.coma.client.SaveModel;
-import com.coma.client.asisEvaluation.User;
+import com.coma.client.User;
+import com.coma.v2.Comav200;
+import com.coma.v2.ModelInfo;
+import com.coma.v2.SaveModel;
 import com.google.gwt.user.client.ui.Label;
 import com.sencha.gxt.widget.core.client.Dialog;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;

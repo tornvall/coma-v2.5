@@ -2,6 +2,8 @@ package com.coma.client;
 
 import java.util.List;
 
+import com.coma.v2.*;
+import com.coma.client.*;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -36,4 +38,7 @@ public interface DatabaseConnection extends RemoteService {
 	String getModelCreatorName(int modelID);
 	List<Integer> getModelIDs(int groupID);
 	List<ProposalAvgVote> getVotes(List<Integer> modelIDs);
+	
+	User getUser(String email);
+	User getUser(int id);
 }

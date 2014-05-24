@@ -1,8 +1,8 @@
 package com.coma.client.widgets;
 
 
-import com.coma.client.ActiveInvite;
-import com.coma.client.HandleGroups;
+import com.coma.v2.ActiveInvite;
+import com.coma.v2.HandleGroups;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;

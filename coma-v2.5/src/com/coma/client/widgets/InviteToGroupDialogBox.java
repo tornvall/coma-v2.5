@@ -2,7 +2,7 @@ package com.coma.client.widgets;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.HandleGroups;
+import com.coma.v2.HandleGroups;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
 import com.sencha.gxt.widget.core.client.Dialog;

@@ -2,9 +2,9 @@ package com.coma.client.widgets;
 
 import java.util.List;
 
-import com.coma.client.ModelInfo;
-import com.coma.client.ProposalAvgVote;
-import com.coma.client.ProposalAvgVotesData;
+import com.coma.v2.ModelInfo;
+import com.coma.v2.ProposalAvgVote;
+import com.coma.v2.ProposalAvgVotesData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor.Path;
 import com.google.gwt.user.client.ui.HTML;

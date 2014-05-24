@@ -3,8 +3,8 @@ package com.coma.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coma.client.Comav200;
-import com.coma.client.ModelInfo;
+import com.coma.v2.Comav200;
+import com.coma.v2.ModelInfo;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.SimplePager;

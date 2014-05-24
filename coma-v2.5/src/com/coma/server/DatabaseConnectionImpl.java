@@ -15,9 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.coma.client.DatabaseConnection;
-import com.coma.client.ModelInfo;
-import com.coma.client.ProposalAvgVote;
-import com.coma.client.WorkGroupInfo;
+import com.coma.client.User;
+import com.coma.client.helpers.*;
+import com.coma.v2.ModelInfo;
+import com.coma.v2.ProposalAvgVote;
+import com.coma.v2.WorkGroupInfo;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -42,9 +44,9 @@ DatabaseConnection {
 	}
 
 	private Connection initializeDBConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/test";
-		String username ="admin";
-		String password = "abc123";
+		String dbURL = Settings.dbURL;
+		String username = Settings.dbUserName;
+		String password = Settings.dbPassword;
 
 		Connection dbCon = null;
 
@@ -723,6 +725,57 @@ DatabaseConnection {
 		}      
 		return null;
 	}
+
+	@Override
+	public User getUser(String email) {
+		Connection dbCon = null;
+		User user = new User();
+
+		String query = "SELECT userID FROM user WHERE userEmail = ?";
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setString(1, email);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				user.setUserId(rs.getInt("userID"));
+				user.setUserType(UserType.valueOf(rs.getString("userType")));				
+			}
+			user.setUserEmail(email);
+			return user;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}      
+		
+		return null;
+	}
+
+	@Override
+	public User getUser(int id) {
+		Connection dbCon = null;
+		User user = new User();
+
+		String query = "SELECT userEmail FROM user WHERE userID = ?";
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				user.setUserEmail(rs.getString("userEmail"));
+				user.setUserType(UserType.valueOf(rs.getString("userType")));	
+			}
+			user.setUserId(id);
+			return user;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}      
+		
+		return null;
+	}
+	
 	
 	
 	/*
