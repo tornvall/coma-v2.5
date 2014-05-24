@@ -1,9 +1,10 @@
 package com.coma.client;
-
+import java.io.Serializable; 
 import com.coma.client.helpers.UserType;
 
-public class User {
-
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private static User instance = null;
 	private int userId;
 	private int activeGroupID;
@@ -41,15 +42,19 @@ public class User {
 		this.userType = userType;
 	}
 
-	public static User getInstance(){
-		
+	public static User getInstance(){		
 		if(instance == null){
 			instance = new User();
 			return instance;
 		}else{
 			return instance;
-		}
-		
+		}		
 	}
+	
+	public static void setInstance(User user){
+		instance = user;		
+	}
+
+	public User(){}
 	
 }

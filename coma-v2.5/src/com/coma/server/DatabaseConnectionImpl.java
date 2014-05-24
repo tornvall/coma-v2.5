@@ -731,7 +731,7 @@ DatabaseConnection {
 		Connection dbCon = null;
 		User user = new User();
 
-		String query = "SELECT userID FROM user WHERE userEmail = ?";
+		String query = "SELECT userID, userType FROM user WHERE userEmail = ?";
 		try{
 			dbCon = initializeDBConnection(); 
 			PreparedStatement preparedStatement = dbCon.prepareStatement(query);

@@ -31,9 +31,9 @@
   <entry-point class='com.coma.client.Main'/>
 
   <!-- Specify the paths for translatable code                    -->
-  <source path=''>
-  </source>
+  <source path='client'/>
   <source path='shared'/>
+  <source path='v2'/>
   
   <!-- allow Super Dev Mode -->
   <add-linker name="xsiframe"/>

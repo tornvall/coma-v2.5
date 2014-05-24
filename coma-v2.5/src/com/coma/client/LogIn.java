@@ -15,8 +15,6 @@ public class LogIn {
 	TextButton participant1Button = new TextButton("Participant 1");
 	TextButton participant2Button = new TextButton("Participant 2");
 	TextButton facilitatorButton = new TextButton("Facilitator");
-	
-	String password = "a";
 
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
@@ -61,6 +59,20 @@ public class LogIn {
 	}
 
 	protected void loginAs(String email) {
+		
+		databaseConnection.getUser(email, new AsyncCallback<User>() {
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(User result) {
+				// TODO Auto-generated method stub
+				User.setInstance(result);
+				Comav25.GetInstance().initMainProgram();		
+			}
+		});
+		
+		
 		getAndSetUserIDFromDatabase(email);
 		User.getInstance().setUserEmail(email);		
 	}
