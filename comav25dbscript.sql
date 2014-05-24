@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `modelcomment` (
 CREATE TABLE IF NOT EXISTS `user` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `userEmail` varchar(100) NOT NULL,
+  `userType` varchar(50) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
@@ -113,10 +114,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumpning av Data i tabell `user`
 --
 
-INSERT INTO `user` (`userID`, `userEmail`) VALUES
-(1, 'f'),
-(2, 'p1'),
-(3, 'p2');
+INSERT INTO `user` (`userID`, `userEmail`, `userType`) VALUES
+(1, 'f', 'Facilitator'),
+(2, 'p1', 'Participant'),
+(3, 'p2', 'Participant');
 
 -- --------------------------------------------------------
 
