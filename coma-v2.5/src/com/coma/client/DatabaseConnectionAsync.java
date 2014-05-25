@@ -1,5 +1,6 @@
 package com.coma.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.coma.v2.ModelInfo;

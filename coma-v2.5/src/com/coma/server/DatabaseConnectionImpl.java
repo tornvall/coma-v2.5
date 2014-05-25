@@ -776,7 +776,7 @@ DatabaseConnection {
 	}
 	
 	@Override
-	public List<Benefit> getAllBenefits() {
+	public List<Benefit> getAllBenefits() throws IllegalArgumentException {
 		Connection dbCon = null;
 		List<Benefit> benefits = new ArrayList<Benefit>();
 

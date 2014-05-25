@@ -58,8 +58,7 @@ public class LogIn {
 		return form;
 	}
 
-	protected void loginAs(String email) {
-		
+	protected void loginAs(String email) {		
 		databaseConnection.getUser(email, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 			}
@@ -70,28 +69,6 @@ public class LogIn {
 				User.setInstance(result);
 				Comav25.GetInstance().initMainProgram();		
 			}
-		});
-		
-		
-		getAndSetUserIDFromDatabase(email);
-		User.getInstance().setUserEmail(email);		
-	}
-
-	/**
-	*Gets active users ID from database and sets the ID in the User class
-	*/
-	public void getAndSetUserIDFromDatabase(String email) {
-		databaseConnection.getUserID(email, new AsyncCallback<Integer>() {
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Integer result) {
-				// TODO Auto-generated method stub
-				User.getInstance().setUserId(result);
-				Comav25.GetInstance().initMainProgram();		
-			}
-
-		});
+		});		
 	}
 }

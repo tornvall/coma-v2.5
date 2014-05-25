@@ -1,11 +1,8 @@
 package com.coma.client;
 
-import com.coma.client.helpers.Settings;
-import com.coma.client.helpers.UserType;
-import com.coma.client.widgets.MessageFrame;
-import com.coma.client.widgets.NameModelDialog;
-import com.coma.client.widgets.NewModelDialogBox;
-import com.coma.client.widgets.SendProposalDialog;
+import com.coma.client.helpers.*;
+import com.coma.client.views.*;
+import com.coma.client.widgets.*;
 import com.coma.v2.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -29,14 +26,10 @@ public class Comav25 {
 	private static Comav25 instance = null;	
 	LogIn logIn = new LogIn();
 	
-	// Define Benefits
-	public TextButton defineBenefitsButton = new TextButton("Define benefits");	
-	
-	// Problems and Opportunities
-	public TextButton problemsOpportunitiesButton = new TextButton("Problems & Opportunities");
-	public TextButton addChangeProblemsButton = new TextButton("Add & change problems");
-	public TextButton addChangeOpportunitiesButton = new TextButton("Add & change opportunities");
-	public TextButton consolidateProblemsButton = new TextButton("Consolidate problems");	
+	// Views
+	private DefineBenefits defineBenefits = null;
+	private ProblemsOpportunities problemsOpportunities = null;
+
 			
 	public MessageFrame oryxFrame = null;
 	
@@ -68,10 +61,13 @@ public class Comav25 {
 		
 		//Add facilitator funtionality
 		if(User.getInstance().getUserType() == UserType.Facilitator){
-			panel.add(this.initDefineBenefitsView(), "Define Benefits");
+			//panel.add(this.initDefineBenefitsView(), "Define Benefits");
+			this.defineBenefits = new DefineBenefits(databaseConnection);
+			panel.add(this.defineBenefits.getView(), "Define Benefits");
+			
 		}
-		
-		panel.add(this.initProblemsOpportunitiesView(), "Problems & Opportunities");
+		this.problemsOpportunities = new ProblemsOpportunities(databaseConnection);
+		panel.add(this.problemsOpportunities.getView(), "Problems & Opportunities");
 //		panel.add(initProposalView(), "Proposals");	
 //		panel.add(initPreferencesView(), "Preferences");
 		panel.setSize("100%", "100%");	
@@ -122,88 +118,7 @@ public class Comav25 {
 		oryxFrame.setWidth(Settings.oryxFrameWidth);
 	}
 	
-	private Panel initDefineBenefitsView(){
-		VerticalPanel panel = new VerticalPanel();
-		//initializeOryxFrame();
-		panel.add(topMenuButtonsDefineBenefitsView());
-		//panel.add(oryxFrame);
-		//oryxFrame.setVisible(true);
-		return panel;
-	}
-		
-	private Panel topMenuButtonsDefineBenefitsView()
-	{ 	
-		HorizontalPanel panel = new HorizontalPanel();
-		defineBenefitsButton.getElement().setClassName("utilityButton");
-
-		defineBenefitsButton.addSelectHandler(new SelectHandler(){
-			@Override
-			public void onSelect(SelectEvent event) {
-		
-			}
-			
-		});
-
-		panel.add(defineBenefitsButton);		
-		panel.add(new Label("Logged in as: " + User.getInstance().getUserEmail()
-				+ " id: "    + User.getInstance().getUserId()
-				+ " Group: " + User.getInstance().getActiveGroupID()
-				+ " Role: "  + User.getInstance().getUserType()));
-		
-		return panel;  
-	}
 	
-	private Panel initProblemsOpportunitiesView(){
-		VerticalPanel panel = new VerticalPanel();
-		//initializeOryxFrame();
-		panel.add(topMenuButtonsProblemsOpportunitiesView());
-		//panel.add(oryxFrame);
-		//oryxFrame.setVisible(true);
-		return panel;
-	}
 	
-	private Panel topMenuButtonsProblemsOpportunitiesView()
-	{ 	
-		HorizontalPanel panel = new HorizontalPanel();
-		addChangeProblemsButton.getElement().setClassName("utilityButton");
-		addChangeOpportunitiesButton.getElement().setClassName("utilityButton");		
-
-		addChangeProblemsButton.addSelectHandler(new SelectHandler(){
-			@Override
-			public void onSelect(SelectEvent event) {
-
-			}
-
-		});
-		addChangeOpportunitiesButton.addSelectHandler(new SelectHandler(){
-			@Override
-			public void onSelect(SelectEvent event) {
-
-			}
-
-		});
-				
-		panel.add(addChangeProblemsButton);
-		panel.add(addChangeOpportunitiesButton);
-
-		//Add facilitator funtionality
-		if(User.getInstance().getUserType()==UserType.Facilitator){
-			consolidateProblemsButton.getElement().setClassName("utilityButton");
-			consolidateProblemsButton.addSelectHandler(new SelectHandler(){
-				@Override
-				public void onSelect(SelectEvent event) {
-
-				}
-
-			});
-			panel.add(consolidateProblemsButton);
-		}
-		
-		panel.add(new Label("Logged in as: " + User.getInstance().getUserEmail()
-						+ " id: "    + User.getInstance().getUserId()
-						+ " Group: " + User.getInstance().getActiveGroupID()
-						+ " Role: "  + User.getInstance().getUserType()));
-		return panel;  
-	}
 
 }

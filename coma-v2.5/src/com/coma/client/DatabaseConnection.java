@@ -1,5 +1,6 @@
 package com.coma.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.coma.v2.*;
@@ -42,7 +43,7 @@ public interface DatabaseConnection extends RemoteService {
 	
 	User getUser(String email);
 	User getUser(int id);
-	List<Benefit> getAllBenefits();
+	List<Benefit> getAllBenefits() throws IllegalArgumentException;
 	void createNewBenefit(String description);
 	void updateBenefitSelection(int modelId, List<Integer> benefits);
 }
