@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.coma.client.DatabaseConnection;
-import com.coma.client.User;
+import com.coma.client.*;
 import com.coma.client.helpers.*;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
@@ -776,31 +775,77 @@ DatabaseConnection {
 		return null;
 	}
 	
-	
-	
-	/*
 	@Override
-	public String getUserName(String email) {
+	public List<Benefit> getAllBenefits() {
 		Connection dbCon = null;
-		String name = "";
-		String query = "SELECT * FROM user as u LEFT JOIN userprofile as p ON u.userID = p.userID WHERE userEmail = ?";
+		List<Benefit> benefits = new ArrayList<Benefit>();
+
+		String query = "SELECT * FROM benefit";
 		try{
 			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setString(1, email);
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				name = rs.getString("firstName");
+				benefits.add(new Benefit(rs.getInt("benefitId"), rs.getString("benefitDescription")));
 			}
-			return name;
+			return benefits;
 
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		}      
+		
 		return null;
 	}
-	*/
 	
+	@Override
+	public void createNewBenefit(String description)throws IllegalArgumentException {
+		Connection dbCon = null;
+		String insertUserQuery = "INSERT INTO benefit (benefitDescription) VALUES (?)";
+
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
+			preparedStmt.setString(1, description);			
+
+			preparedStmt.executeUpdate();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+	}
+
+	@Override
+	public void updateBenefitSelection(int modelId, List<Integer> benefits) {
+		Connection dbCon = null;
+
+		//Remove all previous
+		String query = "DELETE FROM modelBenefit WHERE modelId = ?";
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setInt(1, modelId);			
+			preparedStatement.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}  
+		
+		//Add all selected benefits
+		for(Integer benefitId : benefits){
+			String insertUserQuery = "INSERT INTO modelBenefit (modelId, benefitId) VALUES (?,?)";		
+			try{
+				dbCon = initializeDBConnection(); 
+				PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
+				preparedStmt.setInt(1, modelId);			
+				preparedStmt.setInt(2, benefitId);
+				preparedStmt.executeUpdate();
+	
+			} catch (SQLException ex) {
+				Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+			} 
+		}
+		
+
+	}
 
 }
 

@@ -30,20 +30,14 @@ public class Comav25 {
 	LogIn logIn = new LogIn();
 	
 	// Define Benefits
-	public TextButton defineBenefitsButton = new TextButton("Define benefits");
-	public TextButton problemsOpportunitiesButton = new TextButton("Problems & Opportunities");
+	public TextButton defineBenefitsButton = new TextButton("Define benefits");	
 	
 	// Problems and Opportunities
+	public TextButton problemsOpportunitiesButton = new TextButton("Problems & Opportunities");
 	public TextButton addChangeProblemsButton = new TextButton("Add & change problems");
 	public TextButton addChangeOpportunitiesButton = new TextButton("Add & change opportunities");
 	public TextButton consolidateProblemsButton = new TextButton("Consolidate problems");	
 			
-	//Logged in
-	public Label loggedInLabel = new Label("Logged in as: " + User.getInstance().getUserEmail()
-			+ " id: "    + User.getInstance().getUserId()
-			+ " Group: " + User.getInstance().getActiveGroupID()
-			+ " Role: "  + User.getInstance().getUserType().name());
-
 	public MessageFrame oryxFrame = null;
 	
 	private final DatabaseConnectionAsync databaseConnection = GWT
@@ -74,12 +68,12 @@ public class Comav25 {
 		
 		//Add facilitator funtionality
 		if(User.getInstance().getUserType() == UserType.Facilitator){
-			panel.add(initDefineBenefitsView(), "Define Benefits");
+			panel.add(this.initDefineBenefitsView(), "Define Benefits");
 		}
 		
 		panel.add(this.initProblemsOpportunitiesView(), "Problems & Opportunities");
 //		panel.add(initProposalView(), "Proposals");	
-//		panel.add(initPreferencesView(), "Preferences");	
+//		panel.add(initPreferencesView(), "Preferences");
 		panel.setSize("100%", "100%");	
 		
 		SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {
@@ -151,7 +145,10 @@ public class Comav25 {
 		});
 
 		panel.add(defineBenefitsButton);		
-		panel.add(this.loggedInLabel);
+		panel.add(new Label("Logged in as: " + User.getInstance().getUserEmail()
+				+ " id: "    + User.getInstance().getUserId()
+				+ " Group: " + User.getInstance().getActiveGroupID()
+				+ " Role: "  + User.getInstance().getUserType()));
 		
 		return panel;  
 	}
@@ -202,7 +199,10 @@ public class Comav25 {
 			panel.add(consolidateProblemsButton);
 		}
 		
-		panel.add(this.loggedInLabel);
+		panel.add(new Label("Logged in as: " + User.getInstance().getUserEmail()
+						+ " id: "    + User.getInstance().getUserId()
+						+ " Group: " + User.getInstance().getActiveGroupID()
+						+ " Role: "  + User.getInstance().getUserType()));
 		return panel;  
 	}
 

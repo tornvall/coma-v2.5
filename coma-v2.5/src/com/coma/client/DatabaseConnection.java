@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.coma.v2.*;
 import com.coma.client.*;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -41,4 +42,7 @@ public interface DatabaseConnection extends RemoteService {
 	
 	User getUser(String email);
 	User getUser(int id);
+	List<Benefit> getAllBenefits();
+	void createNewBenefit(String description);
+	void updateBenefitSelection(int modelId, List<Integer> benefits);
 }
