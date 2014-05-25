@@ -20,6 +20,7 @@ import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
 import com.coma.v2.WorkGroupInfo;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * The server-side implementation of the RPC service.
@@ -779,7 +780,7 @@ DatabaseConnection {
 	public List<Benefit> getAllBenefits() throws IllegalArgumentException {
 		Connection dbCon = null;
 		List<Benefit> benefits = new ArrayList<Benefit>();
-
+	
 		String query = "SELECT * FROM benefit";
 		try{
 			dbCon = initializeDBConnection(); 

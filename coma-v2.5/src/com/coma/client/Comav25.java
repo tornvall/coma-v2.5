@@ -7,6 +7,7 @@ import com.coma.v2.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.thirdparty.javascript.jscomp.graph.GraphColoring.Color;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -58,7 +59,7 @@ public class Comav25 {
 	
 	public TabPanel initTabPanel(){
 		final TabPanel panel = new TabPanel();	
-		
+	
 		//Add facilitator funtionality
 		if(User.getInstance().getUserType() == UserType.Facilitator){
 			//panel.add(this.initDefineBenefitsView(), "Define Benefits");
@@ -70,7 +71,6 @@ public class Comav25 {
 		panel.add(this.problemsOpportunities.getView(), "Problems & Opportunities");
 //		panel.add(initProposalView(), "Proposals");	
 //		panel.add(initPreferencesView(), "Preferences");
-		panel.setSize("100%", "100%");	
 		
 		SelectionHandler<Widget> handler = new SelectionHandler<Widget>() {
 	        @Override
