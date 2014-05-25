@@ -22,6 +22,19 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `benefit`(
+`benefitId` int(11) NOT NULL AUTO_INCREMENT,
+`benefitDescription` varchar(50),
+PRIMARY KEY (`benefitId`)
+);
+INSERT INTO `benefit` (`benefitId`, `benefitDescription`) VALUES
+(1, 'Time'),
+(2, 'Customer orientation'),
+(3, 'Cost reduction'),
+(4, 'Employee satisfaction'),
+(5, 'Output quality'),
+(6, 'Risk Control');
+
 --
 -- Tabellstruktur `activegroupmodel`
 --
@@ -235,6 +248,18 @@ INSERT INTO `workgroupmember` (`groupID`, `userID`) VALUES
 (12, 1),
 (14, 1),
 (12, 3);
+
+
+CREATE TABLE IF NOT EXISTS `modelBenefit`(
+`modelId` int(11) NOT NULL,
+`benefitId` int(11) NOT NULL,
+PRIMARY KEY (`modelId`),
+FOREIGN KEY (`modelId`) REFERENCES `model` (`modelID`),
+FOREIGN KEY (`benefitId`) REFERENCES `benefit` (`benefitId`)
+);
+INSERT INTO `modelBenefit` (`modelId`, `benefitId`) VALUES
+(53, 1);
+
 
 --
 -- Restriktioner för dumpade tabeller
