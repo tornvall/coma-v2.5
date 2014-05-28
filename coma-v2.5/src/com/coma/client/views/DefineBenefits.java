@@ -3,6 +3,8 @@ package com.coma.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import java_cup.internal_error;
+
 import org.apache.bcel.generic.Select;
 
 import com.coma.client.Benefit;
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
@@ -33,14 +36,16 @@ public class DefineBenefits {
 	private DatabaseConnectionAsync databaseConnection = null;
 
 	private List<CheckBox> benefitCheckBoxList = new ArrayList<CheckBox>();	
-    private List<Benefit> benefitsList = new ArrayList<Benefit>();
-    private VerticalPanel benefitPanel = new VerticalPanel();;    
+
+    private VerticalPanel benefitPanel = new VerticalPanel();   
 	private VerticalPanel mainWinPanel = new VerticalPanel();
 	
 	private TextButton newBenefitButton = new TextButton("New benefit");
 	private TextButton saveBenefitsButton = new TextButton("Save benefits");
 	
 	private String benefitCheckBoxId = "benefitCbId=";
+	
+	private List<Integer> selectedBenefits = new ArrayList<Integer>();
 	
 	public DefineBenefits(DatabaseConnectionAsync databaseConnection){
 		this.databaseConnection = databaseConnection;
@@ -85,21 +90,37 @@ public class DefineBenefits {
 	
 	private void mainWindowDefineBenefitsView()
 	{ 			
-		VerticalPanel outerPanel = new VerticalPanel();
+		//Clear from previous
+		benefitPanel.clear();
+		mainWinPanel.clear();
+		
 		HorizontalPanel menupanel = new HorizontalPanel();	
 		benefitPanel.getElement().getStyle().setProperty("backgroundColor", Settings.mainWindowBgColorString);
-
-		databaseConnection.getAllBenefits(new AsyncCallback<List<Benefit>>() {		
+		benefitPanel.add(new Label("Loading benefits..."));
+		
+		//Get selected benefits, get all benefits and then build the list
+		databaseConnection.getBenefitSelection(12, 53, new AsyncCallback<List<Integer>>() {		
 			@Override
 			public void onFailure(Throwable caught) {
 			}
 
 			@Override
-			public void onSuccess(List<Benefit> result) {
-				// TODO Auto-generated method stub
-				populateBenefits(result);
+			public void onSuccess(List<Integer> selection) {
+				selectedBenefits = selection;
+
+				databaseConnection.getAllBenefits(new AsyncCallback<List<Benefit>>() {		
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(List<Benefit> benefits) {
+						// TODO Auto-generated method stub
+						populateBenefits(selectedBenefits, benefits);
+					}
+				});						
 			}
-		});
+		});	
 	
 		newBenefitButton.getElement().setClassName("sendButton");
 		saveBenefitsButton.getElement().setClassName("sendButton");
@@ -110,71 +131,64 @@ public class DefineBenefits {
 		
 			}			
 		});		
+		
 		saveBenefitsButton.addSelectHandler(new SelectHandler(){
 			@Override
-			public void onSelect(SelectEvent event) {
-		
+			public void onSelect(SelectEvent event) {				
 				List<Integer> benefitIdToSaveIntegers = new ArrayList<Integer>();
 				for(CheckBox cbBox : benefitCheckBoxList){
 					if(cbBox.getValue()){
 						int id = Integer.valueOf(cbBox.getElement().getId().substring(benefitCheckBoxId.length()));
-						benefitIdToSaveIntegers.add(id);
-						
+						benefitIdToSaveIntegers.add(id);						
 					}
 				}
-
 				
-				//databaseConnection.updateBenefitSelection(modelId, benefits, callback);
-
-			
+				//groupID, modelID, List<Integer> benefits
+				databaseConnection.updateBenefitSelection(12, 53, benefitIdToSaveIntegers, new AsyncCallback<Void>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						benefitPanel.clear();
+						benefitPanel.add(new Label("Error saving selection"));
+					}
+					@Override
+					public void onSuccess(Void result) {
+						benefitPanel.clear();
+						benefitPanel.add(new Label("Selection saved!"));
+					}
+				});
 			}			
 		});
 
 		menupanel.add(newBenefitButton);
 		menupanel.add(saveBenefitsButton);		
-		mainWinPanel.clear();
-		mainWinPanel.add(menupanel);
+		mainWinPanel.add(menupanel);		
 		mainWinPanel.add(benefitPanel);		
-		//return outerPanel;  
 	}
 
-	private void populateBenefits(List<Benefit> list){
-		for(Benefit benefit: list){			
+	private void populateBenefits(List<Integer> selectionList, List<Benefit> benefits){
+		benefitPanel.clear();
+		benefitCheckBoxList.clear();
+		
+		for(Benefit benefit: benefits){								
 			CheckBox cb = new CheckBox(benefit.getDescription());
 			cb.getElement().getStyle().setDisplay(Display.BLOCK);
 			
-			String pageIdString = benefitCheckBoxId + String.valueOf(benefit.getId());			
-			cb.getElement().setId(pageIdString);
-			
-		    // Hook up a listener to find out when it's clicked.
-		    cb.addClickHandler(new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent event) {
-					// TODO Auto-generated method stub				
-			
-//					 boolean checked = ((CheckBox)event.getSource()).getValue();
-//					 String sid = ((CheckBox)event.getSource()).getElement().getId();
-//					 sid.substring(benefitCheckBoxId.length());
-//					 int id = Integer.valueOf(sid);
-					 
-					 //for(Benefit b : )
-					 
-					
-//				      public void onClick(Widget sender) {
-//				        boolean checked = ((CheckBox) sender).isChecked();
-//				        Window.alert("It is " + (checked ? "" : "not") + "checked");
+			for(Integer selected: selectionList){
+				if(benefit.getID() == selected){
+					cb.setValue(true);					
 				}
-			});	
-    
+			}
+
+			String pageIdString = benefitCheckBoxId + String.valueOf(benefit.getID());			
+			cb.getElement().setId(pageIdString);			    
 		    
 		    benefitPanel.add(cb);
-		    this.benefitCheckBoxList.add(cb);
+		    this.benefitCheckBoxList.add(cb);		    
+		    
 		}
-		if(list.isEmpty()){
+		if(benefits.isEmpty()){
 			benefitPanel.add(new Label("There are no benefits"));
 		}
-
 	}
 	
 }

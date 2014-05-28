@@ -42,8 +42,9 @@ public interface DatabaseConnection extends RemoteService {
 	List<ProposalAvgVote> getVotes(List<Integer> modelIDs);
 	
 	User getUser(String email);
-	User getUser(int id);
+	User getUser(int ID);
 	List<Benefit> getAllBenefits() throws IllegalArgumentException;
 	void createNewBenefit(String description);
-	void updateBenefitSelection(int modelId, List<Integer> benefits);
+	void updateBenefitSelection(int groupID,int modelID, List<Integer> benefits);
+	List<Integer> getBenefitSelection(int groupID, int modelID);
 }

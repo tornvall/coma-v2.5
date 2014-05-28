@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java_cup.internal_error;
+
 import com.coma.client.*;
 import com.coma.client.helpers.*;
 import com.coma.v2.ModelInfo;
@@ -752,7 +754,7 @@ DatabaseConnection {
 	}
 
 	@Override
-	public User getUser(int id) {
+	public User getUser(int ID) {
 		Connection dbCon = null;
 		User user = new User();
 
@@ -760,13 +762,13 @@ DatabaseConnection {
 		try{
 			dbCon = initializeDBConnection(); 
 			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, ID);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				user.setUserEmail(rs.getString("userEmail"));
 				user.setUserType(UserType.valueOf(rs.getString("userType")));	
 			}
-			user.setUserId(id);
+			user.setUserId(ID);
 			return user;
 
 		} catch (SQLException ex) {
@@ -787,7 +789,7 @@ DatabaseConnection {
 			PreparedStatement preparedStatement = dbCon.prepareStatement(query);			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				benefits.add(new Benefit(rs.getInt("benefitId"), rs.getString("benefitDescription")));
+				benefits.add(new Benefit(rs.getInt("benefitID"), rs.getString("benefitDescription")));
 			}
 			return benefits;
 
@@ -816,36 +818,59 @@ DatabaseConnection {
 	}
 
 	@Override
-	public void updateBenefitSelection(int modelId, List<Integer> benefits) {
+	public void updateBenefitSelection(int groupID, int modelID, List<Integer> benefits) {
 		Connection dbCon = null;
+		int result = 0;
 
-		//Remove all previous
-		String query = "DELETE FROM modelBenefit WHERE modelId = ?";
+		String deleteQuery = "DELETE FROM workgroupModelBenefit WHERE groupID = ? AND modelID = ?";
+		String insertQuery = "INSERT INTO workgroupModelBenefit (groupID, modelID, benefitID) VALUES (?,?,?)";
+		
 		try{
 			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setInt(1, modelId);			
-			preparedStatement.executeUpdate();
+			
+			PreparedStatement deleteStatement = dbCon.prepareStatement(deleteQuery);
+			deleteStatement.setInt(1, groupID);
+			deleteStatement.setInt(2, modelID);			
+			deleteStatement.executeUpdate();
+
+			//Add all selected benefits
+			for(Integer benefitID : benefits){					
+				PreparedStatement insertStatement = dbCon.prepareStatement(insertQuery);
+				insertStatement.setInt(1, groupID);
+				insertStatement.setInt(2, modelID);			
+				insertStatement.setInt(3, benefitID);
+				insertStatement.executeUpdate();
+			}
+
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-		}  
-		
-		//Add all selected benefits
-		for(Integer benefitId : benefits){
-			String insertUserQuery = "INSERT INTO modelBenefit (modelId, benefitId) VALUES (?,?)";		
-			try{
-				dbCon = initializeDBConnection(); 
-				PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
-				preparedStmt.setInt(1, modelId);			
-				preparedStmt.setInt(2, benefitId);
-				preparedStmt.executeUpdate();
+		} 
+		return;
+	}
 	
-			} catch (SQLException ex) {
-				Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-			} 
-		}
+	@Override
+	public List<Integer> getBenefitSelection(int groupID, int modelID) throws IllegalArgumentException {
+		Connection dbCon = null;
+		List<Integer> benefits = new ArrayList<Integer>();
+	
+		String query = "SELECT * FROM workgroupModelBenefit WHERE groupID = ? AND modelID = ? ";
 		
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);	
+			preparedStatement.setInt(1, groupID);
+			preparedStatement.setInt(2, modelID);		
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				benefits.add(rs.getInt("benefitID"));
+			}
+			return benefits;
 
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}      
+		
+		return null;
 	}
 
 }

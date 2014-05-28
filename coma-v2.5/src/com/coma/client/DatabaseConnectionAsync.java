@@ -50,8 +50,9 @@ public interface DatabaseConnectionAsync {
 			AsyncCallback<List<ProposalAvgVote>> callback);
 
 	void getUser(String email, AsyncCallback<User> asyncCallback);
-	void getUser(int id, AsyncCallback<User> asyncCallback);
+	void getUser(int ID, AsyncCallback<User> asyncCallback);
 	void getAllBenefits(AsyncCallback<List<Benefit>> asyncCallback);
 	void createNewBenefit(String description, AsyncCallback<Void> callback);	
-	void updateBenefitSelection(int modelId, List<Integer> benefits, AsyncCallback<Void> callback);
+	void updateBenefitSelection(int groupID,int modelID, List<Integer> benefits, AsyncCallback<Void> callback);
+	void getBenefitSelection(int groupID, int modelID, AsyncCallback<List<Integer>> callback); 
 }

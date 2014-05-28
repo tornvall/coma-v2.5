@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.1.6
--- http://www.phpmyadmin.net
---
--- Värd: 127.0.0.1
--- Tid vid skapande: 22 maj 2014 kl 21:55
--- Serverversion: 5.6.16
--- PHP-version: 5.5.9
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -16,18 +7,27 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Databas: `comadatabase`
---
 
--- --------------------------------------------------------
+-- Clears database, reverse create order
+drop table if exists `workgroupModelBenefit`;
+drop table if exists `workgroupmember`;
+drop table if exists `workgroupinvites`;
+drop table if exists `workgroup`;
+drop table if exists `voteonmodel`;
+drop table if exists `userprofile`;
+drop table if exists `user`;
+drop table if exists `activegroupmodel`;
+drop table if exists `modelcomment`;
+drop table if exists `model`;
+drop table if exists `benefit`;
+
 
 CREATE TABLE IF NOT EXISTS `benefit`(
-`benefitId` int(11) NOT NULL AUTO_INCREMENT,
+`benefitID` int(11) NOT NULL AUTO_INCREMENT,
 `benefitDescription` varchar(50),
-PRIMARY KEY (`benefitId`)
+PRIMARY KEY (`benefitID`)
 );
-INSERT INTO `benefit` (`benefitId`, `benefitDescription`) VALUES
+INSERT INTO `benefit` (`benefitID`, `benefitDescription`) VALUES
 (1, 'Time'),
 (2, 'Customer orientation'),
 (3, 'Cost reduction'),
@@ -35,33 +35,6 @@ INSERT INTO `benefit` (`benefitId`, `benefitDescription`) VALUES
 (5, 'Output quality'),
 (6, 'Risk Control');
 
---
--- Tabellstruktur `activegroupmodel`
---
-
-CREATE TABLE IF NOT EXISTS `activegroupmodel` (
-  `groupModelID` int(11) NOT NULL AUTO_INCREMENT,
-  `groupID` int(11) NOT NULL,
-  `modelID` int(11) NOT NULL,
-  `modelString` longtext NOT NULL,
-  `version` int(11) NOT NULL,
-  PRIMARY KEY (`groupModelID`),
-  KEY `modelID` (`modelID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumpning av Data i tabell `activegroupmodel`
---
-
-INSERT INTO `activegroupmodel` (`groupModelID`, `groupID`, `modelID`, `modelString`, `version`) VALUES
-(1, 12, 49, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_3B34FD0D-CFB6-4B0C-9E2F-6DEE99C31E50","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge"}],"bounds":{"lowerRight":{"x":274,"y":216},"upperLeft":{"x":244,"y":186}},"dockers":[]},{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","categories":"","startquantity":1,"completionquantity":1,"status":"None","performers":"","properties":"","inputsets":"","inputs":"","outputsets":"","outputs":"","iorules":"","testtime":"After","mi_condition":"","mi_flowcondition":"All","isforcompensation":"","assignments":"","pool":"","lanes":"","looptype":"None","loopcondition":"","loopcounter":1,"loopmaximum":1,"callacitivity":"","activitytype":"Task","tasktype":"None","inmessage":"","outmessage":"","implementation":"Webservice","complexmi_condition":"","messageref":"","operationref":"","taskref":"","instantiate":"","script":"","bgcolor":"#ffffcc"},"stencil":{"id":"Task"},"childShapes":[],"outgoing":[{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge"}],"bounds":{"lowerRight":{"x":419,"y":241},"upperLeft":{"x":319,"y":161}},"dockers":[]},{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62"}],"bounds":{"lowerRight":{"x":318.15625,"y":202},"upperLeft":{"x":274.609375,"y":200}},"dockers":[{"x":15,"y":15,"id":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge_0"},{"x":50,"y":40,"id":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge_2"}],"target":{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62"}},{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","categories":"","startquantity":1,"completionquantity":1,"status":"None","performers":"","properties":"","inputsets":"","inputs":"","outputsets":"","outputs":"","iorules":"","testtime":"After","mi_condition":"","mi_flowcondition":"All","isforcompensation":"","assignments":"","pool":"","lanes":"","looptype":"None","loopcondition":"","loopcounter":1,"loopmaximum":1,"callacitivity":"","activitytype":"Task","tasktype":"None","inmessage":"","outmessage":"","implementation":"Webservice","complexmi_condition":"","messageref":"","operationref":"","taskref":"","instantiate":"","script":"","bgcolor":"#ffffcc"},"stencil":{"id":"Task"},"childShapes":[],"outgoing":[{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge"}],"bounds":{"lowerRight":{"x":564,"y":241},"upperLeft":{"x":464,"y":161}},"dockers":[]},{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489"}],"bounds":{"lowerRight":{"x":463.15625,"y":202},"upperLeft":{"x":419.84375,"y":200}},"dockers":[{"x":50,"y":40,"id":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge_0"},{"x":50,"y":40,"id":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge_2"}],"target":{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489"}},{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","datainputassociations":"","datainput":"","inputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"IntermediateEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":639,"y":216},"upperLeft":{"x":609,"y":186}},"dockers":[{"x":624,"y":201,"id":"oryx_FDFB2D7E-B4B7-45B4-AC42-4E26C153D054"}]},{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C"}],"bounds":{"lowerRight":{"x":608.390625,"y":201},"upperLeft":{"x":564.84375,"y":201}},"dockers":[{"x":50,"y":40,"id":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge_0"},{"x":15,"y":15,"id":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge_2"}],"target":{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C"}}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', 420),
-(2, 14, 53, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_8CFC20EC-DF1A-49BF-B883-B5195385453D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":299},"upperLeft":{"x":397,"y":269}},"dockers":[]},{"resourceId":"oryx_59691FAC-4BCD-4B55-89AB-CC7AAE5AAE21","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":484,"y":299},"upperLeft":{"x":454,"y":269}},"dockers":[]},{"resourceId":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":275},"upperLeft":{"x":425,"y":185}},"dockers":[{"x":425,"y":275,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_0"},{"x":425,"y":185,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_2"}]},{"resourceId":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":false},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":458,"y":279.6563415527344},"upperLeft":{"x":456,"y":184}},"dockers":[{"x":456,"y":279.6563415527344,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_0"},{"x":456,"y":184,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_2"}]},{"resourceId":"oryx_ABA3BCE3-C0B8-4258-BCE1-B3CAE00EC24A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":450,"y":180},"upperLeft":{"x":420,"y":150}},"dockers":[]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', 420);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `model`
---
 
 CREATE TABLE IF NOT EXISTS `model` (
   `modelID` int(11) NOT NULL AUTO_INCREMENT,
@@ -76,11 +49,6 @@ CREATE TABLE IF NOT EXISTS `model` (
   KEY `groupID` (`groupID`),
   KEY `modelCreator` (`modelCreator`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
-
---
--- Dumpning av Data i tabell `model`
---
-
 INSERT INTO `model` (`modelID`, `groupID`, `modelCreator`, `modelName`, `modelType`, `modelString`, `creationDate`, `isProposal`) VALUES
 (36, 12, 1, '123', 0, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_149525D8-F656-493A-9F79-119DE34A2858","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":339,"y":172},"upperLeft":{"x":139,"y":172}},"dockers":[{"x":139,"y":172,"id":"oryx_149525D8-F656-493A-9F79-119DE34A2858_0"},{"x":339,"y":172,"id":"oryx_149525D8-F656-493A-9F79-119DE34A2858_2"}]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', '2014-05-16 16:21:34', 0),
 (37, 12, 1, '123', 0, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_149525D8-F656-493A-9F79-119DE34A2858","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":339,"y":172},"upperLeft":{"x":139,"y":172}},"dockers":[{"x":139,"y":172,"id":"oryx_149525D8-F656-493A-9F79-119DE34A2858_0"},{"x":339,"y":172,"id":"oryx_149525D8-F656-493A-9F79-119DE34A2858_2"}]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', '2014-05-16 16:21:39', 0),
@@ -98,23 +66,29 @@ INSERT INTO `model` (`modelID`, `groupID`, `modelCreator`, `modelName`, `modelTy
 (52, 14, 1, 'testetstttt', 0, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_8CFC20EC-DF1A-49BF-B883-B5195385453D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":299},"upperLeft":{"x":397,"y":269}},"dockers":[]},{"resourceId":"oryx_59691FAC-4BCD-4B55-89AB-CC7AAE5AAE21","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":484,"y":299},"upperLeft":{"x":454,"y":269}},"dockers":[]},{"resourceId":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":275},"upperLeft":{"x":425,"y":185}},"dockers":[{"x":425,"y":275,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_0"},{"x":425,"y":185,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_2"}]},{"resourceId":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":false},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":458,"y":279.6563415527344},"upperLeft":{"x":456,"y":184}},"dockers":[{"x":456,"y":279.6563415527344,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_0"},{"x":456,"y":184,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_2"}]},{"resourceId":"oryx_ABA3BCE3-C0B8-4258-BCE1-B3CAE00EC24A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":450,"y":180},"upperLeft":{"x":420,"y":150}},"dockers":[]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', '2014-05-22 14:17:10', 0),
 (53, 14, 1, 'testetstttt', 0, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_8CFC20EC-DF1A-49BF-B883-B5195385453D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":299},"upperLeft":{"x":397,"y":269}},"dockers":[]},{"resourceId":"oryx_59691FAC-4BCD-4B55-89AB-CC7AAE5AAE21","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":484,"y":299},"upperLeft":{"x":454,"y":269}},"dockers":[]},{"resourceId":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":275},"upperLeft":{"x":425,"y":185}},"dockers":[{"x":425,"y":275,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_0"},{"x":425,"y":185,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_2"}]},{"resourceId":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":false},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":458,"y":279.6563415527344},"upperLeft":{"x":456,"y":184}},"dockers":[{"x":456,"y":279.6563415527344,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_0"},{"x":456,"y":184,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_2"}]},{"resourceId":"oryx_ABA3BCE3-C0B8-4258-BCE1-B3CAE00EC24A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":450,"y":180},"upperLeft":{"x":420,"y":150}},"dockers":[]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', '2014-05-22 14:17:13', 1);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `modelcomment`
---
 
 CREATE TABLE IF NOT EXISTS `modelcomment` (
   `modelID` int(11) NOT NULL,
   `comment` varchar(2000) NOT NULL,
-  PRIMARY KEY (`modelID`)
+  PRIMARY KEY (`modelID`),
+  FOREIGN KEY (`modelID`) REFERENCES `model` (`modelID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `user`
---
+CREATE TABLE IF NOT EXISTS `activegroupmodel` (
+  `groupModelID` int(11) NOT NULL AUTO_INCREMENT,
+  `groupID` int(11) NOT NULL,
+  `modelID` int(11) NOT NULL,
+  `modelString` longtext NOT NULL,
+  `version` int(11) NOT NULL,
+  PRIMARY KEY (`groupModelID`),
+  KEY `modelID` (`modelID`),
+  FOREIGN KEY (`modelID`) REFERENCES `model` (`modelID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+INSERT INTO `activegroupmodel` (`groupModelID`, `groupID`, `modelID`, `modelString`, `version`) VALUES
+(1, 12, 49, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_3B34FD0D-CFB6-4B0C-9E2F-6DEE99C31E50","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge"}],"bounds":{"lowerRight":{"x":274,"y":216},"upperLeft":{"x":244,"y":186}},"dockers":[]},{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","categories":"","startquantity":1,"completionquantity":1,"status":"None","performers":"","properties":"","inputsets":"","inputs":"","outputsets":"","outputs":"","iorules":"","testtime":"After","mi_condition":"","mi_flowcondition":"All","isforcompensation":"","assignments":"","pool":"","lanes":"","looptype":"None","loopcondition":"","loopcounter":1,"loopmaximum":1,"callacitivity":"","activitytype":"Task","tasktype":"None","inmessage":"","outmessage":"","implementation":"Webservice","complexmi_condition":"","messageref":"","operationref":"","taskref":"","instantiate":"","script":"","bgcolor":"#ffffcc"},"stencil":{"id":"Task"},"childShapes":[],"outgoing":[{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge"}],"bounds":{"lowerRight":{"x":419,"y":241},"upperLeft":{"x":319,"y":161}},"dockers":[]},{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62"}],"bounds":{"lowerRight":{"x":318.15625,"y":202},"upperLeft":{"x":274.609375,"y":200}},"dockers":[{"x":15,"y":15,"id":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge_0"},{"x":50,"y":40,"id":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62_edge_2"}],"target":{"resourceId":"oryx_62430E94-DF5C-418F-8BD4-E694B9E20C62"}},{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","categories":"","startquantity":1,"completionquantity":1,"status":"None","performers":"","properties":"","inputsets":"","inputs":"","outputsets":"","outputs":"","iorules":"","testtime":"After","mi_condition":"","mi_flowcondition":"All","isforcompensation":"","assignments":"","pool":"","lanes":"","looptype":"None","loopcondition":"","loopcounter":1,"loopmaximum":1,"callacitivity":"","activitytype":"Task","tasktype":"None","inmessage":"","outmessage":"","implementation":"Webservice","complexmi_condition":"","messageref":"","operationref":"","taskref":"","instantiate":"","script":"","bgcolor":"#ffffcc"},"stencil":{"id":"Task"},"childShapes":[],"outgoing":[{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge"}],"bounds":{"lowerRight":{"x":564,"y":241},"upperLeft":{"x":464,"y":161}},"dockers":[]},{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489"}],"bounds":{"lowerRight":{"x":463.15625,"y":202},"upperLeft":{"x":419.84375,"y":200}},"dockers":[{"x":50,"y":40,"id":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge_0"},{"x":50,"y":40,"id":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489_edge_2"}],"target":{"resourceId":"oryx_81C341D6-5707-4068-9497-B8D98E4E3489"}},{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","datainputassociations":"","datainput":"","inputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"IntermediateEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":639,"y":216},"upperLeft":{"x":609,"y":186}},"dockers":[{"x":624,"y":201,"id":"oryx_FDFB2D7E-B4B7-45B4-AC42-4E26C153D054"}]},{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C"}],"bounds":{"lowerRight":{"x":608.390625,"y":201},"upperLeft":{"x":564.84375,"y":201}},"dockers":[{"x":50,"y":40,"id":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge_0"},{"x":15,"y":15,"id":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C_edge_2"}],"target":{"resourceId":"oryx_267E63C5-70F3-4C7C-AEA8-B5215D046D3C"}}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', 420),
+(2, 14, 53, '{"resourceId":"oryx-canvas","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","version":"","author":"","language":"English","targetnamespace":"http://www.omg.org/bpmn20","expressionlanguage":"","querylanguage":"","creationdate":"","modificationdate":"","pools":""},"stencil":{"id":"BPMNDiagram"},"childShapes":[{"resourceId":"oryx_8CFC20EC-DF1A-49BF-B883-B5195385453D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":299},"upperLeft":{"x":397,"y":269}},"dockers":[]},{"resourceId":"oryx_59691FAC-4BCD-4B55-89AB-CC7AAE5AAE21","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":484,"y":299},"upperLeft":{"x":454,"y":269}},"dockers":[]},{"resourceId":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":""},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":427,"y":275},"upperLeft":{"x":425,"y":185}},"dockers":[{"x":425,"y":275,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_0"},{"x":425,"y":185,"id":"oryx_8BF7FE04-A667-48CE-A543-E783D426E55A_2"}]},{"resourceId":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","conditiontype":"None","conditionexpression":"","showdiamondmarker":false},"stencil":{"id":"SequenceFlow"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":458,"y":279.6563415527344},"upperLeft":{"x":456,"y":184}},"dockers":[{"x":456,"y":279.6563415527344,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_0"},{"x":456,"y":184,"id":"oryx_4DE75418-1F49-4D1A-813C-FA66A4633E3D_2"}]},{"resourceId":"oryx_ABA3BCE3-C0B8-4258-BCE1-B3CAE00EC24A","properties":{"id":"","name":"","documentation":"","auditing":"","monitoring":"","eventdefinitionref":"","eventdefinitions":"","dataoutputassociations":"","dataoutput":"","outputset":"","bgcolor":"#ffffff","trigger":"None"},"stencil":{"id":"StartNoneEvent"},"childShapes":[],"outgoing":[],"bounds":{"lowerRight":{"x":450,"y":180},"upperLeft":{"x":420,"y":150}},"dockers":[]}],"bounds":{"lowerRight":{"x":1920,"y":550},"upperLeft":{"x":0,"y":0}},"stencilset":{"url":"editor/data/stencilsets/bpmn2.0/bpmn2.0.json","namespace":"http://b3mn.org/stencilset/bpmn2.0#"}}', 420);
+
 
 CREATE TABLE IF NOT EXISTS `user` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
@@ -122,21 +96,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userType` varchar(50) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumpning av Data i tabell `user`
---
-
 INSERT INTO `user` (`userID`, `userEmail`, `userType`) VALUES
 (1, 'f', 'Facilitator'),
 (2, 'p1', 'Participant'),
 (3, 'p2', 'Participant');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `userprofile`
---
 
 CREATE TABLE IF NOT EXISTS `userprofile` (
   `userID` int(11) NOT NULL,
@@ -145,23 +109,14 @@ CREATE TABLE IF NOT EXISTS `userprofile` (
   `userDescription` varchar(500) DEFAULT NULL,
   `birthDate` varchar(6) DEFAULT NULL,
   `phoneNumber` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`userID`)
+  PRIMARY KEY (`userID`),
+  FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `userprofile`
---
-
 INSERT INTO `userprofile` (`userID`, `firstName`, `surName`, `userDescription`, `birthDate`, `phoneNumber`) VALUES
-(1, 'Facilitator', '', NULL, '', ''),
+(1, 'Peter', '', NULL, '', ''),
 (2, 'Participant1', '', NULL, '', ''),
 (3, 'participant2', '', NULL, '', '');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `voteonmodel`
---
 
 CREATE TABLE IF NOT EXISTS `voteonmodel` (
   `voteOnModelID` int(11) NOT NULL AUTO_INCREMENT,
@@ -171,22 +126,12 @@ CREATE TABLE IF NOT EXISTS `voteonmodel` (
   PRIMARY KEY (`voteOnModelID`),
   KEY `userID` (`userID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumpning av Data i tabell `voteonmodel`
---
-
 INSERT INTO `voteonmodel` (`voteOnModelID`, `modelID`, `userID`, `grade`) VALUES
 (1, 41, 1, 2),
 (2, 41, 1, 4),
 (3, 37, 1, 10),
 (4, 39, 1, 1);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `workgroup`
---
 
 CREATE TABLE IF NOT EXISTS `workgroup` (
   `groupID` int(11) NOT NULL AUTO_INCREMENT,
@@ -195,20 +140,10 @@ CREATE TABLE IF NOT EXISTS `workgroup` (
   PRIMARY KEY (`groupID`),
   KEY `groupFacilitator` (`groupFacilitator`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
-
---
--- Dumpning av Data i tabell `workgroup`
---
-
 INSERT INTO `workgroup` (`groupID`, `groupFacilitator`, `groupName`) VALUES
-(12, 1, 'Ny testgrupp'),
+(12, 1, 'Peters grupp'),
 (14, 1, 'johans grupp');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `workgroupinvites`
---
 
 CREATE TABLE IF NOT EXISTS `workgroupinvites` (
   `inviteID` int(11) NOT NULL AUTO_INCREMENT,
@@ -217,78 +152,38 @@ CREATE TABLE IF NOT EXISTS `workgroupinvites` (
   `isActive` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`inviteID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumpning av Data i tabell `workgroupinvites`
---
-
 INSERT INTO `workgroupinvites` (`inviteID`, `groupID`, `userID`, `isActive`) VALUES
 (1, 13, 3, 0),
 (3, 12, 3, 0),
 (4, 14, 3, 1);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `workgroupmember`
---
 
 CREATE TABLE IF NOT EXISTS `workgroupmember` (
   `groupID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`groupID`,`userID`),
-  KEY `userID` (`userID`)
+  KEY `userID` (`userID`),
+  FOREIGN KEY (`groupID`) REFERENCES `workgroup` (`groupID`),
+  FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `workgroupmember`
---
-
 INSERT INTO `workgroupmember` (`groupID`, `userID`) VALUES
 (12, 1),
 (14, 1),
 (12, 3);
 
 
-CREATE TABLE IF NOT EXISTS `modelBenefit`(
-`modelId` int(11) NOT NULL,
-`benefitId` int(11) NOT NULL,
-PRIMARY KEY (`modelId`),
-FOREIGN KEY (`modelId`) REFERENCES `model` (`modelID`),
-FOREIGN KEY (`benefitId`) REFERENCES `benefit` (`benefitId`)
+CREATE TABLE IF NOT EXISTS `workgroupModelBenefit`(
+`groupID` int(11) NOT NULL,
+`modelID` int(11) NOT NULL,
+`benefitID` int(11) NOT NULL,
+PRIMARY KEY (`groupID`, `modelID`, `benefitID`),
+FOREIGN KEY (`groupID`) REFERENCES `workgroup` (`groupID`),
+FOREIGN KEY (`modelID`) REFERENCES `model` (`modelID`),
+FOREIGN KEY (`benefitID`) REFERENCES `benefit` (`benefitID`)
 );
-INSERT INTO `modelBenefit` (`modelId`, `benefitId`) VALUES
-(53, 1);
+INSERT INTO `workgroupModelBenefit` (`groupID`, `modelID`, `benefitID`) VALUES
+(12, 53, 1);
 
-
---
--- Restriktioner för dumpade tabeller
---
-
---
--- Restriktioner för tabell `activegroupmodel`
---
-ALTER TABLE `activegroupmodel`
-  ADD CONSTRAINT `activegroupmodel_ibfk_1` FOREIGN KEY (`modelID`) REFERENCES `model` (`modelID`);
-
---
--- Restriktioner för tabell `modelcomment`
---
-ALTER TABLE `modelcomment`
-  ADD CONSTRAINT `modelcomment_ibfk_1` FOREIGN KEY (`modelID`) REFERENCES `model` (`modelID`);
-
---
--- Restriktioner för tabell `userprofile`
---
-ALTER TABLE `userprofile`
-  ADD CONSTRAINT `userprofile_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
-
---
--- Restriktioner för tabell `workgroupmember`
---
-ALTER TABLE `workgroupmember`
-  ADD CONSTRAINT `workgroupmember_ibfk_1` FOREIGN KEY (`groupID`) REFERENCES `workgroup` (`groupID`),
-  ADD CONSTRAINT `workgroupmember_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
