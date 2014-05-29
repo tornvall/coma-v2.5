@@ -791,13 +791,12 @@ DatabaseConnection {
 			while (rs.next()) {
 				benefits.add(new Benefit(rs.getInt("benefitID"), rs.getString("benefitDescription")));
 			}
-			return benefits;
 
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		}      
 		
-		return null;
+		return benefits;
 	}
 	
 	@Override
@@ -815,6 +814,7 @@ DatabaseConnection {
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		} 
+		return;
 	}
 
 	@Override
@@ -864,13 +864,12 @@ DatabaseConnection {
 			while (rs.next()) {
 				benefits.add(rs.getInt("benefitID"));
 			}
-			return benefits;
 
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		}      
 		
-		return null;
+		return benefits;
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.coma.client.views;
 
+import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.User;
 import com.coma.client.helpers.UserType;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -19,10 +21,10 @@ public class ProblemsOpportunities {
 	public TextButton consolidateProblemsButton = new TextButton("Consolidate problems");	
 	
 	private Panel viewPanel = null;
-	private DatabaseConnectionAsync databaseConnection = null;
+	private final DatabaseConnectionAsync databaseConnection = GWT
+			.create(DatabaseConnection.class);
 	
-	public ProblemsOpportunities(DatabaseConnectionAsync databaseConnection){
-		this.databaseConnection = databaseConnection;
+	public ProblemsOpportunities(){
 		this.viewPanel = initProblemsOpportunitiesView();	
 	}
 	public Panel getView(){

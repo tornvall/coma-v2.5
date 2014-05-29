@@ -63,11 +63,11 @@ public class Comav25 {
 		//Add facilitator funtionality
 		if(User.getInstance().getUserType() == UserType.Facilitator){
 			//panel.add(this.initDefineBenefitsView(), "Define Benefits");
-			this.defineBenefits = new DefineBenefits(databaseConnection);
+			this.defineBenefits = new DefineBenefits();
 			panel.add(this.defineBenefits.getView(), "Define Benefits");
 			
 		}
-		this.problemsOpportunities = new ProblemsOpportunities(databaseConnection);
+		this.problemsOpportunities = new ProblemsOpportunities();
 		panel.add(this.problemsOpportunities.getView(), "Problems & Opportunities");
 //		panel.add(initProposalView(), "Proposals");	
 //		panel.add(initPreferencesView(), "Preferences");

@@ -8,9 +8,13 @@ import java_cup.internal_error;
 import org.apache.bcel.generic.Select;
 
 import com.coma.client.Benefit;
+import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.User;
 import com.coma.client.helpers.Settings;
+import com.coma.client.widgets.WriteCommentDialogBox;
+import com.coma.client.widgets.v25.NewBenefitDialogBox;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.TableLayout;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,7 +37,9 @@ public class DefineBenefits {
 
 	private TextButton defineBenefitsButton = new TextButton("Fetch benefits");	
 	private Panel viewPanel = null;
-	private DatabaseConnectionAsync databaseConnection = null;
+	
+	private final DatabaseConnectionAsync databaseConnection = GWT
+			.create(DatabaseConnection.class);
 
 	private List<CheckBox> benefitCheckBoxList = new ArrayList<CheckBox>();	
 
@@ -47,8 +53,7 @@ public class DefineBenefits {
 	
 	private List<Integer> selectedBenefits = new ArrayList<Integer>();
 	
-	public DefineBenefits(DatabaseConnectionAsync databaseConnection){
-		this.databaseConnection = databaseConnection;
+	public DefineBenefits(){
 		this.viewPanel = initDefineBenefitsView();		
 	}
 	public Panel getView(){
@@ -127,8 +132,8 @@ public class DefineBenefits {
 		
 		newBenefitButton.addSelectHandler(new SelectHandler(){
 			@Override
-			public void onSelect(SelectEvent event) {
-		
+			public void onSelect(SelectEvent event) {				
+				NewBenefitDialogBox nbdb = new NewBenefitDialogBox();
 			}			
 		});		
 		
