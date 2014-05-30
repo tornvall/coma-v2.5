@@ -4,6 +4,7 @@ import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.User;
 import com.coma.client.helpers.UserType;
+import com.coma.client.views.problemsopportunities.AddChangeProblems;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,6 +20,13 @@ public class ProblemsOpportunities {
 	public TextButton addChangeProblemsButton = new TextButton("Add & change problems");
 	public TextButton addChangeOpportunitiesButton = new TextButton("Add & change opportunities");
 	public TextButton consolidateProblemsButton = new TextButton("Consolidate problems");	
+		
+	//The "main" window, exluding top menu
+	private VerticalPanel mainWinPanel = new VerticalPanel();
+	
+	//Sub views
+	private AddChangeProblems addChangeProblems = new AddChangeProblems();
+	
 	
 	private Panel viewPanel = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
@@ -33,11 +41,13 @@ public class ProblemsOpportunities {
 	
 
 	private Panel initProblemsOpportunitiesView(){
-		VerticalPanel panel = new VerticalPanel();
-		//initializeOryxFrame();
+		VerticalPanel panel = new VerticalPanel();		
+
 		panel.add(topMenuButtonsProblemsOpportunitiesView());
-		//panel.add(oryxFrame);
-		//oryxFrame.setVisible(true);
+
+		//Reference to empty main window, gets built during run-time 
+		panel.add(mainWinPanel);
+		
 		return panel;
 	}
 	
@@ -50,7 +60,8 @@ public class ProblemsOpportunities {
 		addChangeProblemsButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-
+				mainWinPanel.clear();
+				mainWinPanel.add(addChangeProblems.getView());
 			}
 
 		});
@@ -66,7 +77,7 @@ public class ProblemsOpportunities {
 		panel.add(addChangeOpportunitiesButton);
 
 		//Add facilitator funtionality
-		if(User.getInstance().getUserType()==UserType.Facilitator){
+		if(User.getInstance().getUserType()== UserType.Facilitator){
 			consolidateProblemsButton.getElement().setClassName("utilityButton");
 			consolidateProblemsButton.addSelectHandler(new SelectHandler(){
 				@Override

@@ -42,16 +42,15 @@ public class DefineBenefits {
 			.create(DatabaseConnection.class);
 
 	private List<CheckBox> benefitCheckBoxList = new ArrayList<CheckBox>();	
-
-    private VerticalPanel benefitPanel = new VerticalPanel();   
+       
+	//The "main" window, exluding top menu
 	private VerticalPanel mainWinPanel = new VerticalPanel();
 	
-	private TextButton newBenefitButton = new TextButton("New benefit");
-	private TextButton saveBenefitsButton = new TextButton("Save benefits");
+	//Sub views
+	private VerticalPanel benefitPanel = new VerticalPanel();
 	
-	private String benefitCheckBoxId = "benefitCbId=";
-	
-	private List<Integer> selectedBenefits = new ArrayList<Integer>();
+	//Unique identifier on page
+	private String benefitCheckBoxId = "benefitCbId=";	
 	
 	public DefineBenefits(){
 		this.viewPanel = initDefineBenefitsView();		
@@ -95,6 +94,9 @@ public class DefineBenefits {
 	
 	private void mainWindowDefineBenefitsView()
 	{ 			
+		TextButton saveBenefitsButton = new TextButton("Save benefits");
+		TextButton newBenefitButton = new TextButton("New benefit");
+		
 		//Clear from previous
 		benefitPanel.clear();
 		mainWinPanel.clear();
@@ -111,7 +113,7 @@ public class DefineBenefits {
 
 			@Override
 			public void onSuccess(List<Integer> selection) {
-				selectedBenefits = selection;
+				final List<Integer> selectedBenefits = selection;
 
 				databaseConnection.getAllBenefits(new AsyncCallback<List<Benefit>>() {		
 					@Override
