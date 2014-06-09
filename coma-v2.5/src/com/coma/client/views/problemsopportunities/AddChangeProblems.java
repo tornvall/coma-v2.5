@@ -19,12 +19,16 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 public class AddChangeProblems {
 	
 	private ListBox problemsListBox = new ListBox();
+	private Panel mainWinPanel = null;
+	private AddProblem addProblem = null;
 	
 	private Panel viewPanel = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
 	
-	public AddChangeProblems(){			
+	public AddChangeProblems(Panel mainWinPanel){			
+		this.mainWinPanel = mainWinPanel;
+		addProblem = new AddProblem(mainWinPanel);
 	}
 	
 	public Panel getView(){		
@@ -67,7 +71,8 @@ public class AddChangeProblems {
 		createdProblemsAddButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-
+				mainWinPanel.clear();
+				mainWinPanel.add(addProblem.getView());
 			}
 
 		});

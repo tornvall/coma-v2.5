@@ -24,8 +24,8 @@ public class ProblemsOpportunities {
 	//The "main" window, exluding top menu
 	private VerticalPanel mainWinPanel = new VerticalPanel();
 	
-	//Sub views
-	private AddChangeProblems addChangeProblems = new AddChangeProblems();
+	//Sub views, passing reference for clearing
+	private AddChangeProblems addChangeProblems = new AddChangeProblems(mainWinPanel);
 	
 	
 	private Panel viewPanel = null;
