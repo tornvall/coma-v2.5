@@ -2,6 +2,7 @@ package com.coma.client.views.problemsopportunities;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
+import com.coma.client.LoadModel2;
 import com.coma.client.helpers.Settings;
 import com.coma.client.widgets.MessageFrame;
 import com.google.gwt.core.client.GWT;
@@ -37,7 +38,9 @@ public class AddProblem {
 				
 		mainPanel.add(problemSettings());		
 		this.initializeOryxFrame();
-		mainPanel.add(oryxFrame);			
+		mainPanel.add(oryxFrame);	
+		oryxFrame.setVisible(true);
+		new LoadModel2().getActiveGroupModelFromDatabase(oryxFrame);
 
 		panel.add(headerPanel);
 		panel.add(mainPanel);
