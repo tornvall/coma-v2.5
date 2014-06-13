@@ -478,7 +478,7 @@ DatabaseConnection {
 	}
 
 	@Override
-	public void updateActiveGroupModel(int activeGroupID, int modelID, String version) {
+	public void updateActiveGroupModel(int activeGroupID, int modelID, int version) {
 		Connection dbCon = null;
 
 		String modelString = "";
@@ -499,13 +499,13 @@ DatabaseConnection {
 			preparedStatementTwo.setInt(1, activeGroupID);
 			preparedStatementTwo.setInt(2, modelID);
 			preparedStatementTwo.setString(3, modelString);
-			preparedStatementTwo.setString(4, version);
+			preparedStatementTwo.setInt(4, version);
 
 			preparedStatementTwo.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-		} 
-
+		}
+		return;
 	}
 
 	@Override
@@ -871,6 +871,8 @@ DatabaseConnection {
 		
 		return benefits;
 	}
+	
+	
 
 }
 

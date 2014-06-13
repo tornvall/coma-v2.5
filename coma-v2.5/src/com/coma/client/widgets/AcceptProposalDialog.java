@@ -110,16 +110,16 @@ public class AcceptProposalDialog {
 	 * @param version	AutoIncremented versionID
 	 */
 	public void updateActiveGroupModel(int activeGroupID, int modelID, String version) {
-		databaseConnection.updateActiveGroupModel(activeGroupID, modelID, version, new AsyncCallback<Void>() {
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		databaseConnection.updateActiveGroupModel(activeGroupID, modelID, version, new AsyncCallback<Void>() {
+//			public void onFailure(Throwable caught) {
+//			}
+//
+//			@Override
+//			public void onSuccess(Void result) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
 	}
 
 }

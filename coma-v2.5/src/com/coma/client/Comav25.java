@@ -33,9 +33,17 @@ public class Comav25 {
 
 			
 	public MessageFrame oryxFrame = null;
+	private ModelInfo model = null;
 	
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
+	
+	public ModelInfo getModel() {
+		return this.model;
+	}
+	public void setModel(ModelInfo model) {
+		this.model = model;
+	}
 	
 	public static Comav25 GetInstance(){
 		if(instance == null){

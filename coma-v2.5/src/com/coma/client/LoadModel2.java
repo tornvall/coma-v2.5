@@ -15,16 +15,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class LoadModel2 {
-
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
-
 	
 	public LoadModel2(){	}
 	
 	public void loadModel(ModelInfo result, MessageFrame orFrame){
 		final MessageFrame oryxFrame = orFrame;
 		final String model = result.getModelString();
+		Comav25.GetInstance().setModel(result);
 		// When loading a model that is stored in string variable "model"
 		//oryxFrame.setVisible(false);
         oryxFrame.removeAllCallbackHandlers();
@@ -54,10 +53,8 @@ public class LoadModel2 {
         }));
         oryxFrame.setUrl(Settings.oryxFrameURL);
 	}
-
 	
 	public void getModelFromDatabase(int modelID, MessageFrame orFrame) {
-
 		final MessageFrame oryxFrame = orFrame;
 		databaseConnection.loadModel(modelID, new AsyncCallback<ModelInfo>() {
 					public void onFailure(Throwable caught) {
@@ -70,7 +67,6 @@ public class LoadModel2 {
 		}
 	
 	public void getModelsFromDatabase(int modelID, MessageFrame orFrame) {
-
 		final MessageFrame oryxFrame = orFrame;
 		databaseConnection.loadModel(modelID, new AsyncCallback<ModelInfo>() {
 					public void onFailure(Throwable caught) {
@@ -92,5 +88,5 @@ public class LoadModel2 {
 					}
 				});
 		}
-	
+
 }

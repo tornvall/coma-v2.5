@@ -35,7 +35,7 @@ public interface DatabaseConnection extends RemoteService {
 	List<String> getUserProfile(int userID) throws IllegalArgumentException;
 	List<WorkGroupInfo> getUsersGroups(int userID);
 	List<ModelInfo> getAllUsersModels(int userID);
-	void updateActiveGroupModel(int activeGroupID, int modelID, String version);
+	void updateActiveGroupModel(int activeGroupID, int modelID, int version);
 	List<String> getAllGroupMembers(int activeGroupID);
 	String getModelCreatorName(int modelID);
 	List<Integer> getModelIDs(int groupID);

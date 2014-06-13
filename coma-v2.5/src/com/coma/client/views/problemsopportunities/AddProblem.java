@@ -1,26 +1,45 @@
 package com.coma.client.views.problemsopportunities;
 
+import java.util.List;
+
+import com.coma.client.Benefit;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.LoadModel2;
+import com.coma.client.SaveModel2;
 import com.coma.client.helpers.Settings;
 import com.coma.client.widgets.MessageFrame;
+import com.coma.v2.ModelInfo;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 public class AddProblem {
 
 	private MessageFrame oryxFrame = null;
 	private Panel viewPanel = null;
 	private Panel mainWinPanel = null;
+	private ModelInfo modelInfo = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
 	
 	public AddProblem(Panel mainWinPanel){		
 		this.mainWinPanel = mainWinPanel;
+	}
+	
+	public ModelInfo getModelInfo (){
+		return modelInfo;
+	}
+	
+	public void setModelInfo(ModelInfo modelInfo){
+		this.modelInfo = modelInfo;
 	}
 	
 	public Panel getView(){		
@@ -52,9 +71,33 @@ public class AddProblem {
 		VerticalPanel panel = new VerticalPanel();
 		
 		Label problemNameLabel = new Label("Problem name*:");
+		TextButton saveProblemButton = new TextButton("Save problem");
 		
+		
+		
+		saveProblemButton.addSelectHandler(new SelectHandler(){
+			@Override
+			public void onSelect(SelectEvent event) {
+				new SaveModel2().saveModel(oryxFrame);
+				Info.display("Saved model", "Sucessfully saved the model");
+
+				databaseConnection.updateActiveGroupModel(Settings.activeGroupId, 63, 255, new AsyncCallback<Void>() {		
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Void selection) {
+						Info.display("Added activegroupmodel", "Sucessfully added active group model");
+					}
+				});					
+				
+				
+			}
+		});	
 		
 		panel.add(problemNameLabel);
+		panel.add(saveProblemButton);
 		
 		return panel;
 	}
