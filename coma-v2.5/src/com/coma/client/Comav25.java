@@ -30,7 +30,9 @@ public class Comav25 {
 	// Views
 	private DefineBenefits defineBenefits = null;
 	private ProblemsOpportunities problemsOpportunities = null;
-
+	
+	//Main window panel
+	private VerticalPanel mainWinPanel = new VerticalPanel();
 			
 	public MessageFrame oryxFrame = null;
 	private ModelInfo model = null;
@@ -43,6 +45,12 @@ public class Comav25 {
 	}
 	public void setModel(ModelInfo model) {
 		this.model = model;
+	}
+	public Panel getMainWinPanel(){
+		return this.mainWinPanel;
+	}
+	public void setMainWinPanel(VerticalPanel newMain){
+		this.mainWinPanel = newMain;
 	}
 	
 	public static Comav25 GetInstance(){

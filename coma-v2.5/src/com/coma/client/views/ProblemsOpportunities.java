@@ -1,5 +1,6 @@
 package com.coma.client.views;
 
+import com.coma.client.Comav25;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.User;
@@ -20,12 +21,9 @@ public class ProblemsOpportunities {
 	public TextButton addChangeProblemsButton = new TextButton("Add & change problems");
 	public TextButton addChangeOpportunitiesButton = new TextButton("Add & change opportunities");
 	public TextButton consolidateProblemsButton = new TextButton("Consolidate problems");	
-		
-	//The "main" window, exluding top menu
-	private VerticalPanel mainWinPanel = new VerticalPanel();
-	
+			
 	//Sub views, passing reference for clearing
-	private AddChangeProblems addChangeProblems = new AddChangeProblems(mainWinPanel);
+	private AddChangeProblems addChangeProblems = new AddChangeProblems();
 	
 	
 	private Panel viewPanel = null;
@@ -46,7 +44,7 @@ public class ProblemsOpportunities {
 		panel.add(topMenuButtonsProblemsOpportunitiesView());
 
 		//Reference to empty main window, gets built during run-time 
-		panel.add(mainWinPanel);
+		panel.add(Comav25.GetInstance().getMainWinPanel());
 		
 		return panel;
 	}
@@ -60,8 +58,8 @@ public class ProblemsOpportunities {
 		addChangeProblemsButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				mainWinPanel.clear();
-				mainWinPanel.add(addChangeProblems.getView());
+				Comav25.GetInstance().getMainWinPanel().clear();
+				Comav25.GetInstance().getMainWinPanel().add(addChangeProblems.getView());
 			}
 
 		});

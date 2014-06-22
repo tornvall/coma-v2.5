@@ -25,13 +25,11 @@ public class AddProblem {
 
 	private MessageFrame oryxFrame = null;
 	private Panel viewPanel = null;
-	private Panel mainWinPanel = null;
 	private ModelInfo modelInfo = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
 	
-	public AddProblem(Panel mainWinPanel){		
-		this.mainWinPanel = mainWinPanel;
+	public AddProblem(){		
 	}
 	
 	public ModelInfo getModelInfo (){

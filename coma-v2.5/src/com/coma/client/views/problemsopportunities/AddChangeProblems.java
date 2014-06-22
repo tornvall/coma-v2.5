@@ -2,6 +2,7 @@ package com.coma.client.views.problemsopportunities;
 
 import org.eclipse.jdt.internal.core.CreateCompilationUnitOperation;
 
+import com.coma.client.Comav25;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.User;
@@ -19,16 +20,14 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 public class AddChangeProblems {
 	
 	private ListBox problemsListBox = new ListBox();
-	private Panel mainWinPanel = null;
 	private AddProblem addProblem = null;
 	
 	private Panel viewPanel = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
 	
-	public AddChangeProblems(Panel mainWinPanel){			
-		this.mainWinPanel = mainWinPanel;
-		addProblem = new AddProblem(mainWinPanel);
+	public AddChangeProblems(){			
+		addProblem = new AddProblem();
 	}
 	
 	public Panel getView(){		
@@ -71,8 +70,8 @@ public class AddChangeProblems {
 		createdProblemsAddButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				mainWinPanel.clear();
-				mainWinPanel.add(addProblem.getView());
+				Comav25.GetInstance().getMainWinPanel().clear();
+				Comav25.GetInstance().getMainWinPanel().add(addProblem.getView());
 			}
 
 		});
