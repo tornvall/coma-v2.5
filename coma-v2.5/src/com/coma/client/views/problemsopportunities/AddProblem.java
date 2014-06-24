@@ -57,8 +57,11 @@ public class AddProblem {
 		this.initializeOryxFrame();
 		mainPanel.add(oryxFrame);	
 		oryxFrame.setVisible(true);
-		new LoadModel2().getActiveGroupModelFromDatabase(oryxFrame);
-
+		//Loads latest activegroupmodel
+		//new LoadModel2().getActiveGroupModelFromDatabase(oryxFrame);
+		//Loads original
+		new LoadModel2().getModelFromDatabase(Settings.groupModelId, oryxFrame);
+		
 		panel.add(headerPanel);
 		panel.add(mainPanel);
 		
@@ -76,21 +79,8 @@ public class AddProblem {
 		saveProblemButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				new SaveModel2().saveModel(oryxFrame);
-				Info.display("Saved model", "Sucessfully saved the model");
-
-				databaseConnection.updateActiveGroupModel(Settings.activeGroupId, 63, 255, new AsyncCallback<Void>() {		
-					@Override
-					public void onFailure(Throwable caught) {
-					}
-
-					@Override
-					public void onSuccess(Void selection) {
-						Info.display("Added activegroupmodel", "Sucessfully added active group model");
-					}
-				});					
-				
-				
+				new SaveModel2().saveModel(oryxFrame, true);
+				Info.display("Saved model", "Sucessfully saved the model");									
 			}
 		});	
 		

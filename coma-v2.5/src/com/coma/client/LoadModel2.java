@@ -61,7 +61,7 @@ public class LoadModel2 {
 					}
 					public void onSuccess(ModelInfo result) {
 						//Comav200.GetInstance().setModel(result);
-						//loadModel(result, oryxFrame);
+						loadModel(result, oryxFrame);
 					}
 				});
 		}

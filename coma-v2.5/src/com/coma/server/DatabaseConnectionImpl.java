@@ -181,61 +181,6 @@ DatabaseConnection {
 	}
 
 	@Override
-	public void saveModel(int groupID, int userID, String modelName,
-			int modelType, String modelString, int isProposal) {
-
-		String creationDate = getDate();
-
-		Connection dbCon = null;
-
-		String query = "INSERT INTO model (groupID, modelCreator, modelName, modelType, modelString, creationDate, isProposal) VALUES (?,?,?,?,?,?,?)";
-		try{
-			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setInt(1, groupID);
-			preparedStatement.setInt(2, userID);
-			preparedStatement.setString(3, modelName);
-			preparedStatement.setInt(4, modelType);
-			preparedStatement.setString(5, modelString);
-			preparedStatement.setString(6, creationDate);
-			preparedStatement.setInt(7, isProposal);
-			preparedStatement.executeUpdate();
-		} catch (SQLException ex) {
-			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-		}  
-
-	}
-
-	@Override
-	public ModelInfo loadModel(int modelID) {
-		Connection dbCon = null;
-		ModelInfo modelInfo = new ModelInfo();
-
-		String query = "SELECT * FROM model WHERE modelID = ?";
-		try{
-			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
-			preparedStatement.setInt(1, modelID);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				modelInfo.setModelID(rs.getInt("modelID"));
-				modelInfo.setModelGroupID(rs.getInt("groupID"));
-				modelInfo.setModelCreator(rs.getInt("modelCreator"));
-				modelInfo.setModelType(rs.getInt("modelType"));
-				modelInfo.setModelString(rs.getString("modelString"));
-				modelInfo.setModelName(rs.getString("modelName"));
-				modelInfo.setIsProposal(rs.getInt("isProposal"));
-				modelInfo.setModelCreationDate(rs.getString("creationDate"));
-			}
-			return modelInfo;
-
-		} catch (SQLException ex) {
-			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
-		}      
-		return null;
-	}
-
-	@Override
 	public void addCommentToModel(int userID, int modelID, String comment) {
 
 		Connection dbCon = null;
@@ -726,6 +671,83 @@ DatabaseConnection {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		}      
 		return null;
+	}
+	
+	@Override
+	public void saveModel(int groupID, int userID, String modelName,
+			int modelType, String modelString, int isProposal) {
+
+		String creationDate = getDate();
+
+		Connection dbCon = null;
+
+		String query = "INSERT INTO model (groupID, modelCreator, modelName, modelType, modelString, creationDate, isProposal) VALUES (?,?,?,?,?,?,?)";
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setInt(1, groupID);
+			preparedStatement.setInt(2, userID);
+			preparedStatement.setString(3, modelName);
+			preparedStatement.setInt(4, modelType);
+			preparedStatement.setString(5, modelString);
+			preparedStatement.setString(6, creationDate);
+			preparedStatement.setInt(7, isProposal);
+			preparedStatement.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}  
+
+	}
+
+	@Override
+	public ModelInfo loadModel(int modelID) {
+		Connection dbCon = null;
+		ModelInfo modelInfo = new ModelInfo();
+
+		String query = "SELECT * FROM model WHERE modelID = ?";
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setInt(1, modelID);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				modelInfo.setModelID(rs.getInt("modelID"));
+				modelInfo.setModelGroupID(rs.getInt("groupID"));
+				modelInfo.setModelCreator(rs.getInt("modelCreator"));
+				modelInfo.setModelType(rs.getInt("modelType"));
+				modelInfo.setModelString(rs.getString("modelString"));
+				modelInfo.setModelName(rs.getString("modelName"));
+				modelInfo.setIsProposal(rs.getInt("isProposal"));
+				modelInfo.setModelCreationDate(rs.getString("creationDate"));
+			}
+			return modelInfo;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}      
+		return null;
+	}
+	
+	@Override
+	public void saveModelToActiveGroup(int activeGroupID, int modelID, String modelString, int version) {
+		Connection dbCon = null;
+		String query = "INSERT INTO activegroupmodel(groupID, modelID, modelString, version) VALUES (?,?,?,?)";
+		
+		try{
+			dbCon = initializeDBConnection(); 		
+
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+			preparedStatement.setInt(1, activeGroupID);
+			preparedStatement.setInt(2, modelID);
+			preparedStatement.setString(3, modelString);
+			preparedStatement.setInt(4, version);
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}  
+
 	}
 
 	@Override

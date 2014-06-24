@@ -16,8 +16,6 @@ public interface DatabaseConnectionAsync {
 	void createNewUser(String name, String password,
 			AsyncCallback<Void> callback);
 	void getUserID(String email, AsyncCallback<Integer> asyncCallback);
-	void saveModel(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal,
-			AsyncCallback<Void> asyncCallback);
 	void loadGroupModel(int groupID, AsyncCallback<ModelInfo> asyncCallback);
 	void loadModel(int modelID, AsyncCallback<ModelInfo> asyncCallback);
 	void addVoteToModel(int userID, int modelID, int index, AsyncCallback<Void> asyncCallback);
@@ -25,8 +23,7 @@ public interface DatabaseConnectionAsync {
 	void addCommentToModel(int userID, int modelID, String comment,
 			AsyncCallback<Void> callback);
 	void getCommentsOnModel(int modelID,
-			AsyncCallback<List<String>> asyncCallback);
-	
+			AsyncCallback<List<String>> asyncCallback);	
 	void inviteToGroup(int groupID, int userID, AsyncCallback<Void> callback);
 	void getGroupInfo(int activeGroupID,
 			AsyncCallback<WorkGroupInfo> asyncCallback);
@@ -49,6 +46,8 @@ public interface DatabaseConnectionAsync {
 	void getVotes(List<Integer> modelIDs,
 			AsyncCallback<List<ProposalAvgVote>> callback);
 
+	void saveModel(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal, AsyncCallback<Void> asyncCallback);
+	void saveModelToActiveGroup(int activeGroupID, int modelID, String modelString, int version, AsyncCallback<Void> asyncCallback);
 	void getUser(String email, AsyncCallback<User> asyncCallback);
 	void getUser(int ID, AsyncCallback<User> asyncCallback);
 	void getAllBenefits(AsyncCallback<List<Benefit>> asyncCallback);

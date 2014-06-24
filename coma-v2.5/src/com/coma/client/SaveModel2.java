@@ -23,7 +23,7 @@ public class SaveModel2 {
 			.create(DatabaseConnection.class);
 
 
-	public void saveModel(MessageFrame orFrame){
+	public void saveModel(MessageFrame orFrame, final boolean toActiveGroup){
 
 		final MessageFrame oryxFrame = orFrame;
 		// When saving a model
@@ -43,8 +43,8 @@ public class SaveModel2 {
 				}
 				// Save the model that is in variable "message" (very long string/text)
 				ModelInfo model = Comav25.GetInstance().getModel();
-				if(model.isIsProposal() == 1){
-					sendProposalToDatabase(Settings.activeGroupId, User.getInstance().getUserId(), model.getModelName(), model.getModelType() , data.get("message"), model.isIsProposal());   
+				if(toActiveGroup){
+					saveActiveGroupModelToDatabase(Settings.activeGroupId, model.getModelID(), data.get("message"), 1);   
 				}else{
 					saveModelToDatabase(Settings.activeGroupId, User.getInstance().getUserId(), model.getModelName(), model.getModelType() , data.get("message"), model.isIsProposal());   
 					
@@ -63,11 +63,24 @@ public class SaveModel2 {
 			}
 
 			public void onSuccess(Void result) {
-				Info.display("Saved", "Save successful");
+				Info.display("Saved", "Saved model successfully");
 				
 			}
 		});
 
+	}
+	
+	private void saveActiveGroupModelToDatabase(int activeGroupID, int modelID, String modelString, int version) {
+		databaseConnection.saveModelToActiveGroup(activeGroupID, modelID, modelString, version, new AsyncCallback<Void>() {
+			public void onFailure(Throwable caught) {
+
+			}
+
+			public void onSuccess(Void result) {
+				Info.display("Saved", "Saved to activegroup successfully");
+				
+			}
+		});
 	}
 
 	private void sendProposalToDatabase(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal) {

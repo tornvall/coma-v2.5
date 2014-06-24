@@ -17,8 +17,6 @@ public interface DatabaseConnection extends RemoteService {
 	void createNewUser(String name, String password) throws IllegalArgumentException;
 	int createNewGroup(int userID, String groupName);
 	int getUserID(String email);
-	void saveModel(int groupID, int userID, String modelName, int modelType,
-			String modelString, int isProposal);
 	void addVoteToModel(int userID, int modelID, int index);
 	List<ModelInfo> getAllModelsFromSpecificGroupThatIsProposed(int activeGroup)
 			throws IllegalArgumentException;
@@ -41,6 +39,8 @@ public interface DatabaseConnection extends RemoteService {
 	List<Integer> getModelIDs(int groupID);
 	List<ProposalAvgVote> getVotes(List<Integer> modelIDs);
 	
+	void saveModel(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal);
+	void saveModelToActiveGroup(int activeGroupID, int modelID, String modelString, int version);
 	User getUser(String email);
 	User getUser(int ID);
 	List<Benefit> getAllBenefits() throws IllegalArgumentException;
