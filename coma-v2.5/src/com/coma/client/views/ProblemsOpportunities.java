@@ -75,7 +75,7 @@ public class ProblemsOpportunities {
 		panel.add(addChangeOpportunitiesButton);
 
 		//Add facilitator funtionality
-		if(User.getInstance().getUserType()== UserType.Facilitator){
+		if(User.getInstance().getUserType()== UserType.FACILITATOR){
 			consolidateProblemsButton.getElement().setClassName("utilityButton");
 			consolidateProblemsButton.addSelectHandler(new SelectHandler(){
 				@Override

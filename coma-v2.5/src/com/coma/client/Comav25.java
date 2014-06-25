@@ -77,7 +77,7 @@ public class Comav25 {
 		final TabPanel panel = new TabPanel();	
 	
 		//Add facilitator funtionality
-		if(User.getInstance().getUserType() == UserType.Facilitator){
+		if(User.getInstance().getUserType() == UserType.FACILITATOR){
 			//panel.add(this.initDefineBenefitsView(), "Define Benefits");
 			this.defineBenefits = new DefineBenefits();
 			panel.add(this.defineBenefits.getView(), "Define Benefits");

@@ -763,7 +763,7 @@ DatabaseConnection {
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				user.setUserId(rs.getInt("userID"));
-				user.setUserType(UserType.valueOf(rs.getString("userType")));				
+				user.setUserType(UserType.fromString(rs.getString("userType")));				
 			}
 			user.setUserEmail(email);
 			return user;
