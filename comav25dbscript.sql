@@ -20,7 +20,7 @@ drop table if exists `activegroupmodel`;
 drop table if exists `modelcomment`;
 drop table if exists `model`;
 drop table if exists `benefit`;
-
+drop table if exists `problem`;
 
 CREATE TABLE IF NOT EXISTS `benefit`(
 `benefitID` int(11) NOT NULL AUTO_INCREMENT,
@@ -183,6 +183,24 @@ FOREIGN KEY (`benefitID`) REFERENCES `benefit` (`benefitID`)
 );
 INSERT INTO `workgroupModelBenefit` (`groupID`, `modelID`, `benefitID`) VALUES
 (12, 53, 1);
+
+CREATE TABLE IF NOT EXISTS `problem`(
+`problemID` int(11) NOT NULL,
+`activegroupModelID` int(11) NOT NULL,
+`userID` int(11) NOT NULL,
+`name` varchar(50) NOT NULL,
+`description` varchar(100) NOT NULL,
+`severity` int(11),
+`evolution` int(11),
+`urgency` int(11),
+`occurence` int(11),
+`explanation` varchar(100),
+PRIMARY KEY (`problemID`),
+FOREIGN KEY (`activegroupModelID`) REFERENCES `activegroupmodel` (`groupModelID`),
+FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+);
+INSERT INTO `problem` (`problemID`, `activegroupModelID`, `userID`, `name`, `description`, `severity`, `evolution`, `urgency`, `occurence`, `explanation`) VALUES
+(1, 2, 1, 'Too many hand-overs', 'Too many between declaration and payment decision', 1, 2, 1, 2, 'This is an explanation');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
