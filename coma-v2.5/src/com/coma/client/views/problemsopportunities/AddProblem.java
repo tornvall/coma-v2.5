@@ -142,10 +142,11 @@ public class AddProblem {
 		//Explanation
 		HorizontalPanel problemExplanationHorizontalPanel = new HorizontalPanel();
 		Label problemExplanationLabel = new Label("Explanation:");
-		TextArea problemExplanationTextBox = new TextArea();
-		
+		TextArea problemExplanationTextBox = new TextArea();		
 		problemExplanationHorizontalPanel.add(problemExplanationLabel);
 		problemExplanationHorizontalPanel.add(problemExplanationTextBox);
+		
+		
 		
 		//Save
 		TextButton saveProblemButton = new TextButton("Save problem");	
