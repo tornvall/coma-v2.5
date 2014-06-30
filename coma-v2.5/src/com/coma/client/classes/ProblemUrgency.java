@@ -1,4 +1,4 @@
-package com.coma.client.helpers;
+package com.coma.client.classes;
 
 public enum ProblemUrgency {
     VERYLOW("Very Low"),	    

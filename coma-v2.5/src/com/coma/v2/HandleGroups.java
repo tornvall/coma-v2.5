@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.coma.client.widgets.HandleGroupInvitesCellList;
 import com.coma.client.widgets.HandleGroupInvitesDialogBox;
 import com.coma.client.widgets.SwitchGroupDialogBox;

@@ -2,7 +2,7 @@ package com.coma.client.widgets;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

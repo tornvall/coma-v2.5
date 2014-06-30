@@ -1,5 +1,7 @@
 package com.coma.client;
 
+import com.coma.client.classes.User;
+import com.coma.client.classes.UserType;
 import com.coma.client.helpers.*;
 import com.coma.client.views.*;
 import com.coma.client.widgets.*;

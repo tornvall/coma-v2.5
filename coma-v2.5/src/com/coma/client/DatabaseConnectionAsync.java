@@ -3,6 +3,9 @@ package com.coma.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemImpact;
+import com.coma.client.classes.User;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
 import com.coma.v2.WorkGroupInfo;
@@ -54,4 +57,5 @@ public interface DatabaseConnectionAsync {
 	void createNewBenefit(String description, AsyncCallback<Void> callback);	
 	void updateBenefitSelection(int groupID,int modelID, List<Integer> benefits, AsyncCallback<Void> callback);
 	void getBenefitSelection(int groupID, int modelID, AsyncCallback<List<Integer>> callback); 
+	void getProblemImpacts(int problemId, AsyncCallback<List<ProblemImpact>> callback);
 }

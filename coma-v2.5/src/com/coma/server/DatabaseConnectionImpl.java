@@ -17,6 +17,10 @@ import java.util.logging.Logger;
 import java_cup.internal_error;
 
 import com.coma.client.*;
+import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemImpact;
+import com.coma.client.classes.User;
+import com.coma.client.classes.UserType;
 import com.coma.client.helpers.*;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
@@ -894,6 +898,34 @@ DatabaseConnection {
 		return benefits;
 	}
 	
+	@Override
+	public List<ProblemImpact> getProblemImpacts(int problemId) throws IllegalArgumentException {
+		Connection dbCon = null;
+		List<ProblemImpact> problemImpacts = new ArrayList<ProblemImpact>();
+	
+		String query = "SELECT * FROM problemImpact as pi LEFT JOIN benefit as b ON pi.benefitID = b.benefitID WHERE pi.problemID = ?";
+		
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStatement = dbCon.prepareStatement(query);	
+			preparedStatement.setInt(1, problemId);	
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				problemImpacts.add(new ProblemImpact(
+						rs.getInt("problemImpactID"),
+						rs.getInt("problemID"),
+						rs.getInt("benefitID"),
+						rs.getString("benefitDescription"),
+						rs.getString("impact"),
+						rs.getBoolean("isActive")));
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		}      
+		
+		return problemImpacts;
+	}
 	
 
 }

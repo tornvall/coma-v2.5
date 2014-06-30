@@ -1,7 +1,5 @@
-package com.coma.client;
+package com.coma.client.classes;
 import java.io.Serializable; 
-
-import com.coma.client.helpers.UserType;
 
 public class User implements Serializable {	
 	public static final long serialVersionUID = 5537014912819808912L;

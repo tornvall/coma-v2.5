@@ -11,4 +11,5 @@ public class Settings {
 	public static String mainWindowBgColorString = "#cedff5";
 	public static int activeGroupId = 14;
 	public static int groupModelId = 54;
+	public static int problemId = 1;
 }

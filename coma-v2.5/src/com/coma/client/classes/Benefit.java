@@ -1,4 +1,4 @@
-package com.coma.client;
+package com.coma.client.classes;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -20,12 +20,6 @@ public class Benefit implements IsSerializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}	
-	public boolean isActive() {
-		return isActive;
-	}
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 	
 	public Benefit(){}
 	

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.coma.v2.Comav200;
 import com.coma.v2.ModelInfo;
 import com.google.gwt.core.client.GWT;

@@ -1,7 +1,7 @@
 package com.coma.client.widgets;
 
 
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.coma.v2.Comav200;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.SaveModel;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
 import com.coma.client.oryxhandlers.LoadingCompleteEventListener;
 import com.coma.client.oryxhandlers.LoadingCompletehandler;

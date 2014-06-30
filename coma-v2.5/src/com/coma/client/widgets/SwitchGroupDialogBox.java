@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.User;
+import com.coma.client.classes.User;
 import com.coma.v2.Comav200;
 import com.coma.v2.LoadModel;
 import com.coma.v2.WorkGroupInfo;
