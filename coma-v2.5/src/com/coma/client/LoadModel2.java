@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
+import com.coma.client.classes.ProblemClass;
 import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
 import com.coma.client.oryxhandlers.LoadingCompleteEventListener;
@@ -28,7 +29,6 @@ public class LoadModel2 {
 		//oryxFrame.setVisible(false);
         oryxFrame.removeAllCallbackHandlers();
         oryxFrame.addCallbackHandler(new LoadingCompletehandler(new LoadingCompleteEventListener() {
-
             @Override
             public void loadingComplete() {
                 oryxFrame.removeAllCallbackHandlers();
@@ -47,6 +47,36 @@ public class LoadModel2 {
         	oryxCmd.put("target", "oryx");
         	oryxCmd.put("action", "loadshapes");
         	oryxCmd.put("message", model);
+        	oryxFrame.sendJSON(oryxCmd);
+            }
+
+        }));
+        oryxFrame.setUrl(Settings.oryxFrameURL);
+	}
+	public void loadModelFromProblem(final String modelString, MessageFrame orFrame){
+		final MessageFrame oryxFrame = orFrame;
+		// When loading a model that is stored in string variable "model"
+		//oryxFrame.setVisible(false);
+        oryxFrame.removeAllCallbackHandlers();
+        oryxFrame.addCallbackHandler(new LoadingCompletehandler(new LoadingCompleteEventListener() {
+            @Override
+            public void loadingComplete() {
+                oryxFrame.removeAllCallbackHandlers();
+                oryxFrame.setVisible(true);
+                oryxFrame.addCallbackHandler(new CallbackHandler() {
+                        @Override
+                        public void callBack(final HashMap<String, String> data) {
+                            oryxFrame.removeAllCallbackHandlers();
+                            if (!data.get("action").equals("shapesloaded")) {
+                                // Display error message that model cannot be loaded
+                                return;
+                            }
+                        }
+                });
+        	HashMap<String, String> oryxCmd = new HashMap<String, String>();
+        	oryxCmd.put("target", "oryx");
+        	oryxCmd.put("action", "loadshapes");
+        	oryxCmd.put("message", modelString);
         	oryxFrame.sendJSON(oryxCmd);
             }
 
@@ -80,7 +110,7 @@ public class LoadModel2 {
 	
 	public void getActiveGroupModelFromDatabase(MessageFrame orFrame){
 		final MessageFrame oryxFrame = orFrame;
-		databaseConnection.loadGroupModel(Settings.activeGroupId, new AsyncCallback<ModelInfo>() {
+		databaseConnection.loadGroupModel(Settings.activegroupId, new AsyncCallback<ModelInfo>() {
 					public void onFailure(Throwable caught) {
 					}
 					public void onSuccess(ModelInfo result) {

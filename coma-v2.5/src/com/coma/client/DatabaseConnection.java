@@ -3,9 +3,12 @@ package com.coma.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import java_cup.internal_error;
+
 import com.coma.v2.*;
 import com.coma.client.*;
 import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemClass;
 import com.coma.client.classes.ProblemImpact;
 import com.coma.client.classes.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -52,5 +55,7 @@ public interface DatabaseConnection extends RemoteService {
 	List<Integer> getBenefitSelection(int groupID, int modelID);
 	List<ProblemImpact> getProblemImpacts(int problemId);
 	void createNewProblemImpact(int problemID, int benefitID, String impact);
-	
+	void createNewProblem(int userID, int groupID, int activegroupModelID, ProblemClass problem);
+	ProblemClass loadProblem(int problemID);
+	List<ProblemClass> loadProblemsFromUser(int userID, int groupID, int activegroupModelID);
 }

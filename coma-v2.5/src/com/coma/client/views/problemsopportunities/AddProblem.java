@@ -2,6 +2,7 @@ package com.coma.client.views.problemsopportunities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.internal.compiler.problem.ProblemSeverities;
 
@@ -10,22 +11,28 @@ import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.LoadModel2;
 import com.coma.client.SaveModel2;
 import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemClass;
 import com.coma.client.classes.ProblemEvolution;
 import com.coma.client.classes.ProblemImpact;
 import com.coma.client.classes.ProblemOccurence;
 import com.coma.client.classes.ProblemSeverity;
 import com.coma.client.classes.ProblemUrgency;
+import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
 import com.coma.client.widgets.MessageFrame;
 import com.coma.client.widgets.v25.NewProblemImpactDialogBox;
 import com.coma.v2.ModelInfo;
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -33,7 +40,12 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.rebind.rpc.ProblemReport.Problem;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionModel;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.widget.core.client.button.TextButton;
@@ -50,9 +62,19 @@ public class AddProblem {
 	private ModelInfo modelInfo = null;
 	private CellTable<ProblemImpact> cellTable;
 	private List<ProblemImpact> problemImpactList;
-	SimpleComboBox<Benefit> benefitComboBox;
-	private List<Benefit> benefitList;
+	private SimpleComboBox<Benefit> benefitComboBox;
 	private AddProblem instance = null;
+	private SelectionModel<ProblemImpact> selectionModel = null;
+	private int nextImpactId = 0;
+	
+	//Input
+	private TextBox problemNameTextBox;
+	private TextArea problemDescTextBox;
+	private ListBox problemSeverityListBox;
+	private ListBox problemEvolutionListBox;
+	private ListBox problemUrgencyListBox;
+	private ListBox problemOccurenceListBox;
+	private TextArea problemExplanationTextBox;
 	
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);	
@@ -68,11 +90,22 @@ public class AddProblem {
 		this.modelInfo = modelInfo;
 	}
 	
-	public Panel getView(){		
+	public Panel getNewView(){				
 		this.viewPanel = initAddProblemView();
 		
 		return this.viewPanel;
-	}	
+	}		
+	
+	public void addImpact(ProblemImpact impact){
+		impact.setUniqueId(nextImpactId);
+		nextImpactId++;
+		
+		this.problemImpactList.add(impact);
+	}
+	
+	public void addSelection(ProblemImpact impact){
+		selectionModel.setSelected(impact, true);
+	}
 	
 	private Panel initAddProblemView(){				
 		instance = this;
@@ -104,14 +137,14 @@ public class AddProblem {
 		//Name
 		HorizontalPanel problemNameHorizontalPanel = new HorizontalPanel();
 		Label problemNameLabel = new Label("Problem name*:");
-		TextBox problemNameTextBox = new TextBox();
+		problemNameTextBox = new TextBox();
 		problemNameHorizontalPanel.add(problemNameLabel);
 		problemNameHorizontalPanel.add(problemNameTextBox);
 		
 		//Description
 		HorizontalPanel problemDescHorizontalPanel = new HorizontalPanel();
 		Label problemDescLabel = new Label("Description*:");
-		TextArea problemDescTextBox = new TextArea();
+		problemDescTextBox = new TextArea();
 		problemDescHorizontalPanel.add(problemDescLabel);
 		problemDescHorizontalPanel.add(problemDescTextBox);
 		
@@ -120,7 +153,7 @@ public class AddProblem {
 		//Severity
 		HorizontalPanel problemSeverityHorizontalPanel = new HorizontalPanel();
 		Label problemSeverityLabel = new Label("Severity:");
-		ListBox problemSeverityListBox = new ListBox();
+		problemSeverityListBox = new ListBox();
 		for(ProblemSeverity severity: ProblemSeverity.values()){
 			problemSeverityListBox.addItem(severity.toString());
 		}
@@ -130,7 +163,7 @@ public class AddProblem {
 		//Evolution
 		HorizontalPanel problemEvolutionHorizontalPanel = new HorizontalPanel();
 		Label problemEvolutionLabel = new Label("Evolution:");
-		ListBox problemEvolutionListBox = new ListBox();
+		problemEvolutionListBox = new ListBox();
 		for(ProblemEvolution evolution: ProblemEvolution.values()){
 			problemEvolutionListBox.addItem(evolution.toString());
 		}
@@ -140,7 +173,7 @@ public class AddProblem {
 		//Urgency
 		HorizontalPanel problemUrgencyHorizontalPanel = new HorizontalPanel();
 		Label problemUrgencyLabel = new Label("Urgency:");
-		ListBox problemUrgencyListBox = new ListBox();
+		problemUrgencyListBox = new ListBox();
 		for(ProblemUrgency urgency: ProblemUrgency.values()){
 			problemUrgencyListBox.addItem(urgency.toString());
 		}
@@ -150,7 +183,7 @@ public class AddProblem {
 		//Occurence
 		HorizontalPanel problemOccurenceHorizontalPanel = new HorizontalPanel();
 		Label problemOccurenceLabel = new Label("Occurence:");
-		ListBox problemOccurenceListBox = new ListBox();
+		problemOccurenceListBox = new ListBox();
 		for(ProblemOccurence occurence: ProblemOccurence.values()){
 			problemOccurenceListBox.addItem(occurence.toString());
 		}
@@ -160,7 +193,7 @@ public class AddProblem {
 		//Explanation
 		HorizontalPanel problemExplanationHorizontalPanel = new HorizontalPanel();
 		Label problemExplanationLabel = new Label("Explanation:");
-		TextArea problemExplanationTextBox = new TextArea();		
+		problemExplanationTextBox = new TextArea();		
 		problemExplanationHorizontalPanel.add(problemExplanationLabel);
 		problemExplanationHorizontalPanel.add(problemExplanationTextBox);
 		
@@ -175,8 +208,7 @@ public class AddProblem {
 		saveProblemButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				new SaveModel2().saveModel(oryxFrame, true);
-				Info.display("Saved model", "Sucessfully saved the model");									
+				new SaveModel2().saveProblem(oryxFrame, createProblem());
 			}
 		});	
 		
@@ -205,6 +237,15 @@ public class AddProblem {
 		
 		problemImpactList = new ArrayList<ProblemImpact>();
 		
+		//Selection model
+		selectionModel = new MultiSelectionModel<ProblemImpact>(new ProvidesKey<ProblemImpact>() {
+		    @Override
+		    public Object getKey(ProblemImpact item) {		    	
+				return item.getUniqueId();
+		    }
+		});		
+		cellTable.setSelectionModel(selectionModel, DefaultSelectionEventManager.<ProblemImpact> createCheckboxManager());			
+		
 		//Create Benefit column
 		TextColumn<ProblemImpact> benefitColumn = new TextColumn<ProblemImpact>() {
 		      @Override
@@ -221,10 +262,21 @@ public class AddProblem {
 		        return object.getImpact();
 		      }
 		    };
-		cellTable.addColumn(impactColumn, "Impact on benefit");
+		cellTable.addColumn(impactColumn, "Impact on benefit");			
+		
+		//Check column
+		Column<ProblemImpact, Boolean> checkColumn = new Column<ProblemImpact, Boolean>(new CheckboxCell(true, false)) {
+		      @Override
+		      public Boolean getValue(ProblemImpact object) {
+		        // Get the value from the selection model.
+		    	  return selectionModel.isSelected(object);
+		      }
+		};		    		
+		cellTable.addColumn(checkColumn);
+		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 		
 		//Fetch data
-		this.updateProblemImpactList();
+		this.fetchProblemImpactList();
 		
 		//Add all elements
 		impactPanel.add(impactLabel);
@@ -252,12 +304,10 @@ public class AddProblem {
 		//Fetch data
 		this.fetchBenefits();		
 		
-		
 		benefitComboBox.addSelectionHandler(new SelectionHandler<Benefit>() {
 		      @Override
 		      public void onSelection(SelectionEvent<Benefit> event) {
 		        NewProblemImpactDialogBox npidb = new NewProblemImpactDialogBox(
-		        		Settings.problemId,
 		        		event.getSelectedItem().getID(),
 		        		event.getSelectedItem().getDescription(),
 		        		instance);		        
@@ -270,7 +320,7 @@ public class AddProblem {
 		return addImpactPanel;
 	}
 	
-	public void updateProblemImpactList(){
+	public void fetchProblemImpactList(){
 		//Get impacts for problem
 		databaseConnection.getProblemImpacts(Settings.problemId, new AsyncCallback<List<ProblemImpact>>() {		
 			@Override
@@ -279,16 +329,30 @@ public class AddProblem {
 
 			@Override
 			public void onSuccess(List<ProblemImpact> result) {
-				// TODO Auto-generated method stub
-				problemImpactList = result;			
+				//Add impacts and generate uniqueId for selection
+				for (ProblemImpact impact:result) {
+					addImpact(impact);
+				}
 				
-				//For paging calculations
-			    cellTable.setRowCount(problemImpactList.size(), true);
-
-			    //Push data to widget
-			    cellTable.setRowData(0, problemImpactList);
+				//Refresh list and push data
+				refreshProblemImpactList();
+				
+				//Set selected (requires uniqueId)
+				for (ProblemImpact impact:result) {
+					if(impact.getIsActive().equals(true)){
+						selectionModel.setSelected(impact, true);
+					}
+				}
 			}
 		});	
+	}
+	
+	public void refreshProblemImpactList(){
+		//For paging calculations
+	    cellTable.setRowCount(problemImpactList.size(), true);
+
+	    //Push data to widget
+	    cellTable.setRowData(0, problemImpactList);
 	}
 	
 	private void fetchBenefits(){
@@ -298,15 +362,26 @@ public class AddProblem {
 			}
 
 			@Override
-			public void onSuccess(List<Benefit> result) {
-				// TODO Auto-generated method stub
-				benefitList = result;			
-				
+			public void onSuccess(List<Benefit> result) {				
 				for (Benefit benefit : result) {
 					benefitComboBox.add(benefit);
 				}
 			}
 		});	
+	}
+	
+	private ProblemClass createProblem(){
+		ProblemClass problem = new ProblemClass(
+				this.problemNameTextBox.getText(),
+				this.problemDescTextBox.getText(),
+				ProblemSeverity.fromString(problemSeverityListBox.getItemText(problemSeverityListBox.getSelectedIndex())),
+				ProblemEvolution.fromString(problemEvolutionListBox.getItemText(problemEvolutionListBox.getSelectedIndex())),
+				ProblemUrgency.fromString(problemUrgencyListBox.getItemText(problemUrgencyListBox.getSelectedIndex())),
+				ProblemOccurence.fromString(problemOccurenceListBox.getItemText(problemOccurenceListBox.getSelectedIndex())),
+				this.problemExplanationTextBox.getText(),
+				problemImpactList);
+		
+		return problem;		
 	}
 	
 	private void initializeOryxFrame() {

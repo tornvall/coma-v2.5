@@ -71,7 +71,7 @@ public class AddChangeProblems {
 			@Override
 			public void onSelect(SelectEvent event) {
 				Comav25.GetInstance().getMainWinPanel().clear();
-				Comav25.GetInstance().getMainWinPanel().add(addProblem.getView());
+				Comav25.GetInstance().getMainWinPanel().add(addProblem.getNewView());
 			}
 
 		});

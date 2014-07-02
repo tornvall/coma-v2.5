@@ -14,9 +14,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java_cup.internal_error;
+
 import com.coma.client.*;
 import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemClass;
+import com.coma.client.classes.ProblemEvolution;
 import com.coma.client.classes.ProblemImpact;
+import com.coma.client.classes.ProblemOccurence;
+import com.coma.client.classes.ProblemSeverity;
+import com.coma.client.classes.ProblemUrgency;
 import com.coma.client.classes.User;
 import com.coma.client.classes.UserType;
 import com.coma.client.helpers.*;
@@ -826,11 +833,11 @@ DatabaseConnection {
 	@Override
 	public void createNewBenefit(String description)throws IllegalArgumentException {
 		Connection dbCon = null;
-		String insertUserQuery = "INSERT INTO benefit (benefitDescription) VALUES (?)";
+		String query = "INSERT INTO benefit (benefitDescription) VALUES (?)";
 
 		try{
 			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
+			PreparedStatement preparedStmt = dbCon.prepareStatement(query);
 			preparedStmt.setString(1, description);			
 
 			preparedStmt.executeUpdate();
@@ -928,11 +935,11 @@ DatabaseConnection {
 	@Override
 	public void createNewProblemImpact(int problemID, int benefitID, String impact)throws IllegalArgumentException {
 		Connection dbCon = null;
-		String insertUserQuery = "INSERT INTO problemImpact (`problemID`, `benefitID`, `impact`, `isActive`) VALUES (?,?,?,?)";
+		String query = "INSERT INTO problemImpact (`problemID`, `benefitID`, `impact`, `isActive`) VALUES (?,?,?,?)";
 
 		try{
 			dbCon = initializeDBConnection(); 
-			PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
+			PreparedStatement preparedStmt = dbCon.prepareStatement(query);
 			preparedStmt.setInt(1, problemID);
 			preparedStmt.setInt(2, benefitID);
 			preparedStmt.setString(3, impact);
@@ -944,6 +951,119 @@ DatabaseConnection {
 			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
 		} 
 		return;
+	}
+	
+	@Override
+	public void createNewProblem(int userID, int groupID, int activegroupModelID, ProblemClass problem)throws IllegalArgumentException {
+		Connection dbCon = null;
+		String query = "INSERT INTO problem (`userID`, `groupID`, `activegroupModelID`, `name`, `description`, `severity`, `evolution`, `urgency`, `occurence`, `explanation`, `modelString`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		int newProblemID = -1;
+		
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStmt = dbCon.prepareStatement(query);
+			preparedStmt.setInt(1, userID);
+			preparedStmt.setInt(2, groupID);
+			preparedStmt.setInt(3, activegroupModelID);
+			preparedStmt.setString(4, problem.getName());
+			preparedStmt.setString(5, problem.getDescription());
+			preparedStmt.setString(6, problem.getSeverity().toString());
+			preparedStmt.setString(7, problem.getEvolution().toString());
+			preparedStmt.setString(8, problem.getUrgency().toString());
+			preparedStmt.setString(9, problem.getOccurence().toString());
+			preparedStmt.setString(10, problem.getExplanation());
+			preparedStmt.setString(11, problem.getModelString());
+			preparedStmt.executeUpdate();
+			
+			//Get the new problemID
+			String idQuery = "SELECT problemID FROM problem WHERE activegroupModelID = ? AND userID = ?";
+			PreparedStatement preparedStmt2 = dbCon.prepareStatement(idQuery);
+			preparedStmt2.setInt(1, activegroupModelID);
+			preparedStmt2.setInt(2, userID);
+			ResultSet rs2 = preparedStmt2.executeQuery();
+			while (rs2.next()) {				
+				newProblemID = rs2.getInt("problemID");						
+			}
+			
+			//Add all impacts
+			for(ProblemImpact impact:problem.getProblemImpactList()){
+				String impactQuery = "INSERT INTO problemImpact (`problemID`, `benefitID`, `impact`, `isActive`) VALUES (?,?,?,?)";
+				PreparedStatement preparedStmt3 = dbCon.prepareStatement(impactQuery);
+				preparedStmt3.setInt(1, newProblemID);
+				preparedStmt3.setInt(2, impact.getBenefitId());
+				preparedStmt3.setString(3, impact.getImpact());
+				preparedStmt3.setBoolean(4, impact.getIsActive());				
+				preparedStmt3.executeUpdate();				
+			}	
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return;
+	}
+	
+	@Override
+	public ProblemClass loadProblem(int problemID)throws IllegalArgumentException {
+		Connection dbCon = null;
+		String query = "SELECT * FROM problem WHERE problemID = ?";
+		ProblemClass problem = new ProblemClass();
+				
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStmt = dbCon.prepareStatement(query);
+			preparedStmt.setInt(1, problemID);
+			ResultSet rs = preparedStmt.executeQuery();
+			while (rs.next()) {				
+				problem.setProblemID(rs.getInt("problemID"));
+				problem.setName(rs.getString("name"));
+				problem.setDescription(rs.getString("description"));
+				problem.setSeverity(ProblemSeverity.fromString(rs.getString("severity")));
+				problem.setEvolution(ProblemEvolution.fromString(rs.getString("evolution")));
+				problem.setUrgency(ProblemUrgency.fromString(rs.getString("urgency")));
+				problem.setOccurence(ProblemOccurence.fromString(rs.getString("occurence")));
+				problem.setExplanation(rs.getString("explanation"));
+				problem.setModelString(rs.getString("modelString"));
+			}			
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return problem;
+	}
+	
+	@Override
+	public List<ProblemClass> loadProblemsFromUser(int userID, int groupID, int activegroupModelID)throws IllegalArgumentException {
+		Connection dbCon = null;
+		String query = "SELECT * FROM problem WHERE userID = ? AND groupID = ? AND activegroupModelID = ?";
+		List<ProblemClass> problemList = new ArrayList<ProblemClass>();				
+				
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStmt = dbCon.prepareStatement(query);
+			preparedStmt.setInt(1, userID);
+			preparedStmt.setInt(2, groupID);
+			preparedStmt.setInt(3, activegroupModelID);			
+			ResultSet rs = preparedStmt.executeQuery();
+			
+			//Create all problems
+			while (rs.next()) {			
+				ProblemClass problem = new ProblemClass();
+				problem.setProblemID(rs.getInt("problemID"));
+				problem.setName(rs.getString("name"));
+				problem.setDescription(rs.getString("description"));
+				problem.setSeverity(ProblemSeverity.fromString(rs.getString("severity")));
+				problem.setEvolution(ProblemEvolution.fromString(rs.getString("evolution")));
+				problem.setUrgency(ProblemUrgency.fromString(rs.getString("urgency")));
+				problem.setOccurence(ProblemOccurence.fromString(rs.getString("occurence")));
+				problem.setExplanation(rs.getString("explanation"));
+				problem.setModelString(rs.getString("modelString"));
+				problemList.add(problem);
+			}			
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return problemList;
 	}
 
 }

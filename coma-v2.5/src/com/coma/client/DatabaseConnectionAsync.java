@@ -3,7 +3,10 @@ package com.coma.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import java_cup.internal_error;
+
 import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemClass;
 import com.coma.client.classes.ProblemImpact;
 import com.coma.client.classes.User;
 import com.coma.v2.ModelInfo;
@@ -59,4 +62,7 @@ public interface DatabaseConnectionAsync {
 	void getBenefitSelection(int groupID, int modelID, AsyncCallback<List<Integer>> callback); 
 	void getProblemImpacts(int problemId, AsyncCallback<List<ProblemImpact>> callback);
 	void createNewProblemImpact(int problemID, int benefitID, String impact, AsyncCallback<Void> callback);
+	void createNewProblem(int userID, int groupID, int activegroupModelID, ProblemClass problem, AsyncCallback<Void> callback);
+	void loadProblem(int problemID, AsyncCallback<ProblemClass> callback);
+	void loadProblemsFromUser(int userID, int groupID, int activegroupModelID, AsyncCallback<List<ProblemClass>> callback);
 }

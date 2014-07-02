@@ -6,6 +6,7 @@ import java.util.List;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
 import com.coma.client.classes.Benefit;
+import com.coma.client.classes.ProblemImpact;
 import com.coma.client.classes.User;
 import com.coma.client.views.problemsopportunities.AddProblem;
 import com.coma.v2.Comav200;
@@ -37,13 +38,11 @@ public class NewProblemImpactDialogBox {
 	private Dialog dialog; 
 	private String benefitDesc;
 	private int benefitID;
-	private int problemID;
 	private AddProblem addProblemInstance = null;
 
-	public NewProblemImpactDialogBox(int problemID, int benefitID, String benefitDesc, AddProblem addProblemInstance) {
+	public NewProblemImpactDialogBox(int benefitID, String benefitDesc, AddProblem addProblemInstance) {
 		this.benefitDesc = benefitDesc;
 		this.benefitID = benefitID;
-		this.problemID = problemID;
 		this.addProblemInstance = addProblemInstance;
 		
 		Dialog dialogBox = createDialogBox();
@@ -75,7 +74,8 @@ public class NewProblemImpactDialogBox {
 				// TODO Auto-generated method stub
 				String impact = writeDescriptionTextArea.getText();
 
-				addProblemImpact(impact);
+				//addProblemImpact(impact);
+				addProblemImpactToList(impact);
 				
 				dialog.hide();
 			}
@@ -90,18 +90,12 @@ public class NewProblemImpactDialogBox {
 		});
 		return dialog;
 	}
-
-	protected void addProblemImpact(String impact) {
-		databaseConnection.createNewProblemImpact(this.problemID, this.benefitID, impact, new AsyncCallback<Void>() {
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				addProblemInstance.updateProblemImpactList();
-			}
-		});
-	}
 	
+	protected void addProblemImpactToList(String impact) {		
+		ProblemImpact newImpact = new ProblemImpact(benefitID, benefitDesc, impact, true);
+			
+		addProblemInstance.addImpact(newImpact);	
+		addProblemInstance.addSelection(newImpact);
+		addProblemInstance.refreshProblemImpactList();
+	}
 }

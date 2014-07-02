@@ -9,7 +9,9 @@ public class Settings {
 	public static String dbUserName ="admin";
 	public static String dbPassword = "abc123";		
 	public static String mainWindowBgColorString = "#cedff5";
-	public static int activeGroupId = 14;
+	public static int activegroupId = 14;
+	public static int activegroupModelId = 2;
 	public static int groupModelId = 54;
 	public static int problemId = 1;
+	public static int groupId = 12;
 }

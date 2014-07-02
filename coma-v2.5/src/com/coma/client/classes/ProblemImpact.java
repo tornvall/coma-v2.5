@@ -6,12 +6,13 @@ public class ProblemImpact implements Serializable {
 	private static final long serialVersionUID = 1765950051101731143L;
 	
 	private static ProblemImpact instance = null;
-	private int problemImpactId;
-	private int problemId;
-	private int benefitId;
-	private String benefitName;
-	private String impact;
-	private Boolean isActive;
+	private int problemImpactId = -1;
+	private int problemId = -1;
+	private int benefitId = -1;
+	private String benefitName = "";
+	private String impact = "";
+	private Boolean isActive = true;
+	private int uniqueId = -1;
 	
 	public static ProblemImpact getInstance(){		
 		if(instance == null){
@@ -29,8 +30,15 @@ public class ProblemImpact implements Serializable {
 	public ProblemImpact(){}
 	
 	public ProblemImpact(int problemImpactId, int problemId, int benefitId, String benefitName, String impact, Boolean isActive){
+		this(problemId, benefitId, benefitName, impact, isActive);
 		this.problemImpactId = problemImpactId;
+	}
+
+	public ProblemImpact(int problemId, int benefitId, String benefitName, String impact, Boolean isActive){
+		this(benefitId, benefitName, impact, isActive);
 		this.problemId = problemId;
+	}
+	public ProblemImpact(int benefitId, String benefitName, String impact, Boolean isActive){
 		this.benefitId = benefitId;
 		this.benefitName = benefitName;
 		this.impact = impact;
@@ -72,6 +80,12 @@ public class ProblemImpact implements Serializable {
 	}
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+	public int getUniqueId() {
+		return uniqueId;
+	}
+	public void setUniqueId(int uniqueId) {
+		this.uniqueId = uniqueId;
 	}
 	
 }
