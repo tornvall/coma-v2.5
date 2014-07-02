@@ -186,7 +186,7 @@ INSERT INTO `workgroupModelBenefit` (`groupID`, `modelID`, `benefitID`) VALUES
 (12, 53, 1);
 
 CREATE TABLE `problem`(
-`problemID` int(11) NOT NULL,
+`problemID` int(11) NOT NULL AUTO_INCREMENT,
 `activegroupModelID` int(11) NOT NULL,
 `userID` int(11) NOT NULL,
 `name` varchar(50) NOT NULL,
@@ -204,7 +204,7 @@ INSERT INTO `problem` (`problemID`, `activegroupModelID`, `userID`, `name`, `des
 (1, 2, 1, 'Too many hand-overs', 'Too many between declaration and payment decision', 1, 2, 1, 2, 'This is an explanation');
 
 CREATE TABLE `problemImpact`(
-`problemImpactID` int(11) NOT NULL,
+`problemImpactID` int(11) NOT NULL AUTO_INCREMENT,
 `problemID` int(11) NOT NULL,
 `benefitID` int(11) NOT NULL,
 `impact` varchar(100) NOT NULL,
