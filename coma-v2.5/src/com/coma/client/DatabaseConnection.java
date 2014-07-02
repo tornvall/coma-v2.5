@@ -51,5 +51,6 @@ public interface DatabaseConnection extends RemoteService {
 	void updateBenefitSelection(int groupID,int modelID, List<Integer> benefits);
 	List<Integer> getBenefitSelection(int groupID, int modelID);
 	List<ProblemImpact> getProblemImpacts(int problemId);
+	void createNewProblemImpact(int problemID, int benefitID, String impact);
 	
 }

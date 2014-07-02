@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java_cup.internal_error;
-
 import com.coma.client.*;
 import com.coma.client.classes.Benefit;
 import com.coma.client.classes.ProblemImpact;
@@ -927,6 +925,26 @@ DatabaseConnection {
 		return problemImpacts;
 	}
 	
+	@Override
+	public void createNewProblemImpact(int problemID, int benefitID, String impact)throws IllegalArgumentException {
+		Connection dbCon = null;
+		String insertUserQuery = "INSERT INTO problemImpact (`problemID`, `benefitID`, `impact`, `isActive`) VALUES (?,?,?,?)";
+
+		try{
+			dbCon = initializeDBConnection(); 
+			PreparedStatement preparedStmt = dbCon.prepareStatement(insertUserQuery);
+			preparedStmt.setInt(1, problemID);
+			preparedStmt.setInt(2, benefitID);
+			preparedStmt.setString(3, impact);
+			preparedStmt.setBoolean(4, true);
+
+			preparedStmt.executeUpdate();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return;
+	}
 
 }
 

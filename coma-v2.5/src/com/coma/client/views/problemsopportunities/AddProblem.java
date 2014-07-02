@@ -17,6 +17,7 @@ import com.coma.client.classes.ProblemSeverity;
 import com.coma.client.classes.ProblemUrgency;
 import com.coma.client.helpers.Settings;
 import com.coma.client.widgets.MessageFrame;
+import com.coma.client.widgets.v25.NewProblemImpactDialogBox;
 import com.coma.v2.ModelInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -51,6 +52,7 @@ public class AddProblem {
 	private List<ProblemImpact> problemImpactList;
 	SimpleComboBox<Benefit> benefitComboBox;
 	private List<Benefit> benefitList;
+	private AddProblem instance = null;
 	
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);	
@@ -73,6 +75,7 @@ public class AddProblem {
 	}	
 	
 	private Panel initAddProblemView(){				
+		instance = this;
 		VerticalPanel panel = new VerticalPanel();
 		HorizontalPanel headerPanel = new HorizontalPanel();
 		HorizontalPanel mainPanel = new HorizontalPanel();				
@@ -247,15 +250,17 @@ public class AddProblem {
 		benefitComboBox.setEmptyText("Select a benefit");
 		
 		//Fetch data
-		this.fetchBenefits();
+		this.fetchBenefits();		
 		
 		
 		benefitComboBox.addSelectionHandler(new SelectionHandler<Benefit>() {
 		      @Override
 		      public void onSelection(SelectionEvent<Benefit> event) {
-		        Info.display("State Selected", "You selected " + (event.getSelectedItem() 
-		        		== null ? "nothing"
-		            	: lb.getLabel(event.getSelectedItem()) + "!"));
+		        NewProblemImpactDialogBox npidb = new NewProblemImpactDialogBox(
+		        		Settings.problemId,
+		        		event.getSelectedItem().getID(),
+		        		event.getSelectedItem().getDescription(),
+		        		instance);		        
 		      }
 		});		
 		
@@ -265,7 +270,7 @@ public class AddProblem {
 		return addImpactPanel;
 	}
 	
-	private void updateProblemImpactList(){
+	public void updateProblemImpactList(){
 		//Get impacts for problem
 		databaseConnection.getProblemImpacts(Settings.problemId, new AsyncCallback<List<ProblemImpact>>() {		
 			@Override

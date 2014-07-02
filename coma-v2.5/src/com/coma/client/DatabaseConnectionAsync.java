@@ -58,4 +58,5 @@ public interface DatabaseConnectionAsync {
 	void updateBenefitSelection(int groupID,int modelID, List<Integer> benefits, AsyncCallback<Void> callback);
 	void getBenefitSelection(int groupID, int modelID, AsyncCallback<List<Integer>> callback); 
 	void getProblemImpacts(int problemId, AsyncCallback<List<ProblemImpact>> callback);
+	void createNewProblemImpact(int problemID, int benefitID, String impact, AsyncCallback<Void> callback);
 }
