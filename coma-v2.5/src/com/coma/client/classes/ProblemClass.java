@@ -7,7 +7,6 @@ import java_cup.internal_error;
 
 public class ProblemClass  implements Serializable {
 	private static final long serialVersionUID = 8427357966262343169L;
-	private static ProblemClass instance;
 	
 	private int problemID = -1;
 	private String name = "";
@@ -20,18 +19,6 @@ public class ProblemClass  implements Serializable {
 	private List<ProblemImpact> problemImpactList;
 	private String modelString = "";
 
-	public static ProblemClass getInstance(){		
-		if(instance == null){
-			instance = new ProblemClass();
-			return instance;
-		}else{
-			return instance;
-		}		
-	}
-	
-	public static void setInstance(ProblemClass problemClass){
-		instance = problemClass;		
-	}
 
 	public ProblemClass(){}
 	

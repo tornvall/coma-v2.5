@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class ProblemImpact implements Serializable {
 	private static final long serialVersionUID = 1765950051101731143L;
 	
-	private static ProblemImpact instance = null;
 	private int problemImpactId = -1;
 	private int problemId = -1;
 	private int benefitId = -1;
@@ -13,19 +12,6 @@ public class ProblemImpact implements Serializable {
 	private String impact = "";
 	private Boolean isActive = true;
 	private int uniqueId = -1;
-	
-	public static ProblemImpact getInstance(){		
-		if(instance == null){
-			instance = new ProblemImpact();
-			return instance;
-		}else{
-			return instance;
-		}		
-	}
-	
-	public static void setInstance(ProblemImpact problemImpact){
-		instance = problemImpact;		
-	}
 
 	public ProblemImpact(){}
 	

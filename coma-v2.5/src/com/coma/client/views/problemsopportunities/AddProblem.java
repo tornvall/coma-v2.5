@@ -59,7 +59,6 @@ public class AddProblem {
 
 	private MessageFrame oryxFrame = null;
 	private Panel viewPanel = null;
-	private ModelInfo modelInfo = null;
 	private CellTable<ProblemImpact> cellTable;
 	private List<ProblemImpact> problemImpactList;
 	private SimpleComboBox<Benefit> benefitComboBox;
@@ -80,15 +79,7 @@ public class AddProblem {
 			.create(DatabaseConnection.class);	
 	
 	public AddProblem(){		
-	}
-	
-	public ModelInfo getModelInfo (){
-		return modelInfo;
-	}
-	
-	public void setModelInfo(ModelInfo modelInfo){
-		this.modelInfo = modelInfo;
-	}
+	}	
 	
 	public Panel getNewView(){				
 		this.viewPanel = initAddProblemView();
