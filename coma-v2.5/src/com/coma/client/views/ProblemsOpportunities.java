@@ -3,8 +3,8 @@ package com.coma.client.views;
 import com.coma.client.Comav25;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.User;
-import com.coma.client.classes.UserType;
+import com.coma.client.models.User;
+import com.coma.client.models.UserType;
 import com.coma.client.views.problemsopportunities.AddChangeProblems;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,19 +24,21 @@ public class ProblemsOpportunities {
 			
 	//Sub views, passing reference for clearing
 	private AddChangeProblems addChangeProblems = new AddChangeProblems();
-	
-	
+		
 	private Panel viewPanel = null;
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);
+	
+	public AddChangeProblems getAddChangeProblems(){
+		return this.addChangeProblems;
+	}
 	
 	public ProblemsOpportunities(){
 		this.viewPanel = initProblemsOpportunitiesView();	
 	}
 	public Panel getView(){
 		return this.viewPanel;
-	}
-	
+	}	
 
 	private Panel initProblemsOpportunitiesView(){
 		VerticalPanel panel = new VerticalPanel();		

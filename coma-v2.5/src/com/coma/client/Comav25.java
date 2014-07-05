@@ -1,8 +1,8 @@
 package com.coma.client;
 
-import com.coma.client.classes.User;
-import com.coma.client.classes.UserType;
 import com.coma.client.helpers.*;
+import com.coma.client.models.User;
+import com.coma.client.models.UserType;
 import com.coma.client.views.*;
 import com.coma.client.widgets.*;
 import com.coma.v2.*;
@@ -53,6 +53,9 @@ public class Comav25 {
 	}
 	public void setMainWinPanel(VerticalPanel newMain){
 		this.mainWinPanel = newMain;
+	}
+	public ProblemsOpportunities getProblemsOpportunities(){
+		return this.problemsOpportunities;
 	}
 	
 	public static Comav25 GetInstance(){

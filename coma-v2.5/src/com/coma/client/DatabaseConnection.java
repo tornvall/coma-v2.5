@@ -7,10 +7,10 @@ import java_cup.internal_error;
 
 import com.coma.v2.*;
 import com.coma.client.*;
-import com.coma.client.classes.Benefit;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.ProblemImpact;
-import com.coma.client.classes.User;
+import com.coma.client.models.Benefit;
+import com.coma.client.models.ProblemClass;
+import com.coma.client.models.ProblemImpact;
+import com.coma.client.models.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -56,6 +56,8 @@ public interface DatabaseConnection extends RemoteService {
 	List<ProblemImpact> getProblemImpacts(int problemId);
 	void createNewProblemImpact(int problemID, int benefitID, String impact);
 	void createNewProblem(int userID, int groupID, int activegroupModelID, ProblemClass problem);
-	ProblemClass loadProblem(int problemID);
-	List<ProblemClass> loadProblemsFromUser(int userID, int groupID, int activegroupModelID);
+	ProblemClass getProblem(int problemID);
+	List<ProblemClass> getProblemsFromUser(int userID, int groupID, int activegroupModelID);
+	void updateProblem(ProblemClass problem);
+	void deleteProblem(ProblemClass problem);
 }

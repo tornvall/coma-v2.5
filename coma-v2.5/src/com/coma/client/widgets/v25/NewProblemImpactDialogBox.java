@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.Benefit;
-import com.coma.client.classes.ProblemImpact;
-import com.coma.client.classes.User;
+import com.coma.client.models.Benefit;
+import com.coma.client.models.ProblemImpact;
+import com.coma.client.models.User;
+import com.coma.client.views.problemsopportunities.AProblemView;
 import com.coma.client.views.problemsopportunities.AddProblem;
 import com.coma.v2.Comav200;
 import com.coma.v2.ModelInfo;
@@ -38,12 +39,12 @@ public class NewProblemImpactDialogBox {
 	private Dialog dialog; 
 	private String benefitDesc;
 	private int benefitID;
-	private AddProblem addProblemInstance = null;
+	private AProblemView problemInstance = null;
 
-	public NewProblemImpactDialogBox(int benefitID, String benefitDesc, AddProblem addProblemInstance) {
+	public NewProblemImpactDialogBox(int benefitID, String benefitDesc, AProblemView problemInstance) {
 		this.benefitDesc = benefitDesc;
 		this.benefitID = benefitID;
-		this.addProblemInstance = addProblemInstance;
+		this.problemInstance = problemInstance;
 		
 		Dialog dialogBox = createDialogBox();
 		dialogBox.center();
@@ -94,8 +95,8 @@ public class NewProblemImpactDialogBox {
 	protected void addProblemImpactToList(String impact) {		
 		ProblemImpact newImpact = new ProblemImpact(benefitID, benefitDesc, impact, true);
 			
-		addProblemInstance.addImpact(newImpact);	
-		addProblemInstance.addSelection(newImpact);
-		addProblemInstance.refreshProblemImpactList();
+		problemInstance.addImpact(newImpact);
+		problemInstance.addSelection(newImpact);
+		problemInstance.refreshProblemImpactList();
 	}
 }

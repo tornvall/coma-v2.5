@@ -1,4 +1,4 @@
-package com.coma.client.classes;
+package com.coma.client.models;
 
 import java.io.Serializable;
 import java.util.List;

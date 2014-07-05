@@ -9,9 +9,9 @@ import org.apache.bcel.generic.Select;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.Benefit;
-import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
+import com.coma.client.models.Benefit;
+import com.coma.client.models.User;
 import com.coma.client.widgets.WriteCommentDialogBox;
 import com.coma.client.widgets.v25.NewBenefitDialogBox;
 import com.google.gwt.core.client.GWT;

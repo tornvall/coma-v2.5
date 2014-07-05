@@ -17,19 +17,20 @@ import java.util.logging.Logger;
 import java_cup.internal_error;
 
 import com.coma.client.*;
-import com.coma.client.classes.Benefit;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.ProblemEvolution;
-import com.coma.client.classes.ProblemImpact;
-import com.coma.client.classes.ProblemOccurence;
-import com.coma.client.classes.ProblemSeverity;
-import com.coma.client.classes.ProblemUrgency;
-import com.coma.client.classes.User;
-import com.coma.client.classes.UserType;
 import com.coma.client.helpers.*;
+import com.coma.client.models.Benefit;
+import com.coma.client.models.ProblemClass;
+import com.coma.client.models.ProblemEvolution;
+import com.coma.client.models.ProblemImpact;
+import com.coma.client.models.ProblemOccurence;
+import com.coma.client.models.ProblemSeverity;
+import com.coma.client.models.ProblemUrgency;
+import com.coma.client.models.User;
+import com.coma.client.models.UserType;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
 import com.coma.v2.WorkGroupInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -1003,7 +1004,7 @@ DatabaseConnection {
 	}
 	
 	@Override
-	public ProblemClass loadProblem(int problemID)throws IllegalArgumentException {
+	public ProblemClass getProblem(int problemID)throws IllegalArgumentException {
 		Connection dbCon = null;
 		String query = "SELECT * FROM problem WHERE problemID = ?";
 		ProblemClass problem = new ProblemClass();
@@ -1032,7 +1033,7 @@ DatabaseConnection {
 	}
 	
 	@Override
-	public List<ProblemClass> loadProblemsFromUser(int userID, int groupID, int activegroupModelID)throws IllegalArgumentException {
+	public List<ProblemClass> getProblemsFromUser(int userID, int groupID, int activegroupModelID)throws IllegalArgumentException {
 		Connection dbCon = null;
 		String query = "SELECT * FROM problem WHERE userID = ? AND groupID = ? AND activegroupModelID = ?";
 		List<ProblemClass> problemList = new ArrayList<ProblemClass>();				
@@ -1065,7 +1066,76 @@ DatabaseConnection {
 		} 
 		return problemList;
 	}
+	
+	@Override
+	public void updateProblem(ProblemClass problem)throws IllegalArgumentException {
+		Connection dbCon = null;		
+		
+		try{
+			dbCon = initializeDBConnection(); 
+			
+			//Delete previous impacts
+			for(ProblemImpact impact:problem.getProblemImpactList()){
+				String deleteQuery = "DELETE FROM problemImpact WHERE `problemImpactID` = ?";
+				PreparedStatement preparedStmt = dbCon.prepareStatement(deleteQuery);
+				preparedStmt.setInt(1, impact.getProblemImpactId());								
+				preparedStmt.executeUpdate();	
+			}
+			
+			String query = "UPDATE problem SET `name` = ?, `description` = ?, `severity` = ?, `evolution` = ?, `urgency` = ?, `occurence` = ?, `explanation` = ?, `modelString` = ? WHERE problemID = ?";			
+			PreparedStatement preparedStmt2 = dbCon.prepareStatement(query);
+			preparedStmt2.setString(1, problem.getName());
+			preparedStmt2.setString(2, problem.getDescription());
+			preparedStmt2.setString(3, problem.getSeverity().toString());
+			preparedStmt2.setString(4, problem.getEvolution().toString());
+			preparedStmt2.setString(5, problem.getUrgency().toString());
+			preparedStmt2.setString(6, problem.getOccurence().toString());
+			preparedStmt2.setString(7, problem.getExplanation());
+			preparedStmt2.setString(8, problem.getModelString());
+			preparedStmt2.setInt(9, problem.getProblemID());
+			preparedStmt2.executeUpdate();					
+			
+			//Add all impacts
+			for(ProblemImpact impact:problem.getProblemImpactList()){
+				String impactQuery = "INSERT INTO problemImpact (`problemID`, `benefitID`, `impact`, `isActive`) VALUES (?,?,?,?)";
+				PreparedStatement preparedStmt3 = dbCon.prepareStatement(impactQuery);
+				preparedStmt3.setInt(1, problem.getProblemID());
+				preparedStmt3.setInt(2, impact.getBenefitId());
+				preparedStmt3.setString(3, impact.getImpact());
+				preparedStmt3.setBoolean(4, impact.getIsActive());				
+				preparedStmt3.executeUpdate();				
+			}	
 
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return;
+	}
+	
+	@Override
+	public void deleteProblem(ProblemClass problem)throws IllegalArgumentException {
+		Connection dbCon = null;		
+		
+		try{
+			dbCon = initializeDBConnection(); 
+			
+			//Delete previous impacts
+			String deleteQuery = "DELETE FROM problemImpact WHERE `problemID` = ?";
+			PreparedStatement preparedStmt = dbCon.prepareStatement(deleteQuery);
+			preparedStmt.setInt(1, problem.getProblemID());								
+			preparedStmt.executeUpdate();	
+			
+			//Delete problem			
+			String query = "DELETE FROM problem WHERE problemID = ?";			
+			PreparedStatement preparedStmt2 = dbCon.prepareStatement(query);
+			preparedStmt2.setInt(1, problem.getProblemID());
+			preparedStmt2.executeUpdate();						
+
+		} catch (SQLException ex) {
+			Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex);
+		} 
+		return;
+	}
 }
 
 

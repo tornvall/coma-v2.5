@@ -5,10 +5,10 @@ import java.util.List;
 
 import java_cup.internal_error;
 
-import com.coma.client.classes.Benefit;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.ProblemImpact;
-import com.coma.client.classes.User;
+import com.coma.client.models.Benefit;
+import com.coma.client.models.ProblemClass;
+import com.coma.client.models.ProblemImpact;
+import com.coma.client.models.User;
 import com.coma.v2.ModelInfo;
 import com.coma.v2.ProposalAvgVote;
 import com.coma.v2.WorkGroupInfo;
@@ -63,6 +63,8 @@ public interface DatabaseConnectionAsync {
 	void getProblemImpacts(int problemId, AsyncCallback<List<ProblemImpact>> callback);
 	void createNewProblemImpact(int problemID, int benefitID, String impact, AsyncCallback<Void> callback);
 	void createNewProblem(int userID, int groupID, int activegroupModelID, ProblemClass problem, AsyncCallback<Void> callback);
-	void loadProblem(int problemID, AsyncCallback<ProblemClass> callback);
-	void loadProblemsFromUser(int userID, int groupID, int activegroupModelID, AsyncCallback<List<ProblemClass>> callback);
+	void getProblem(int problemID, AsyncCallback<ProblemClass> callback);
+	void getProblemsFromUser(int userID, int groupID, int activegroupModelID, AsyncCallback<List<ProblemClass>> callback);
+	void updateProblem(ProblemClass problem, AsyncCallback<Void> callback);
+	void deleteProblem(ProblemClass problem, AsyncCallback<Void> callback);
 }

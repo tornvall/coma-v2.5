@@ -1,6 +1,6 @@
 package com.coma.client;
 
-import com.coma.client.classes.User;
+import com.coma.client.models.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;

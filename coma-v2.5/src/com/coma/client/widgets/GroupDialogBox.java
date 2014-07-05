@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.User;
+import com.coma.client.models.User;
 import com.coma.v2.HandleGroups;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

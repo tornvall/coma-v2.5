@@ -6,9 +6,9 @@ import java.util.List;
 import com.coma.client.Comav25;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
+import com.coma.client.models.ProblemClass;
+import com.coma.client.models.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -27,6 +27,7 @@ public class AddChangeProblemsPanel {
 		
 	private Panel viewPanel = null;
 	private AddProblem addProblem = null;
+	private UpdateProblem updateProblem = null;
 	
 	private CellTable<ProblemClass> cellTable;
 	private List<ProblemClass> problemList = new ArrayList<ProblemClass>();
@@ -38,6 +39,7 @@ public class AddChangeProblemsPanel {
 	
 	public AddChangeProblemsPanel(){			
 		addProblem = new AddProblem();
+		updateProblem = new UpdateProblem();
 	}
 	
 	public Panel getView(){		
@@ -67,24 +69,36 @@ public class AddChangeProblemsPanel {
 				Comav25.GetInstance().getMainWinPanel().clear();
 				Comav25.GetInstance().getMainWinPanel().add(addProblem.getNewView());
 			}
-
 		});
 		
 		createdProblemsRemoveButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
+				final ProblemClass problem = selectionModel.getSelectedObject();
+				selectionModel.clear();
+				
+				databaseConnection.deleteProblem(problem, new AsyncCallback<Void>() {		
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
+					@Override
+					public void onSuccess(Void result) {
+						Info.display("Problem deleted", "Deleted " + problem.getName());
+						Comav25.GetInstance().getMainWinPanel().clear();
+						Comav25.GetInstance().getMainWinPanel().add(Comav25.GetInstance().getProblemsOpportunities().getAddChangeProblems().getView());
+					}
+				});
 			}
-
 		});
 		
 		createdProblemsDetailsButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				Info.display("Details", selectionModel.getSelectedObject().getName());
+				Comav25.GetInstance().getMainWinPanel().clear();
+				Comav25.GetInstance().getMainWinPanel().add(updateProblem.getUpdateView(selectionModel.getSelectedObject()));
 			}
-		});
-				
+		});				
 				
 		//Add headers and button
 		panel.add(headerLabel);		
@@ -122,7 +136,7 @@ public class AddChangeProblemsPanel {
 	}
 	
 	private void fetchProblemList(){
-		databaseConnection.loadProblemsFromUser(User.getInstance().getUserId(), Settings.groupId, Settings.activegroupModelId, new AsyncCallback<List<ProblemClass>>() {		
+		databaseConnection.getProblemsFromUser(User.getInstance().getUserId(), Settings.groupId, Settings.activegroupModelID, new AsyncCallback<List<ProblemClass>>() {		
 			@Override
 			public void onFailure(Throwable caught) {
 			}

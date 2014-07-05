@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.User;
 import com.coma.client.helpers.Settings;
+import com.coma.client.models.ProblemClass;
+import com.coma.client.models.User;
 import com.coma.client.views.problemsopportunities.AddProblem;
 import com.coma.client.widgets.CallbackHandler;
 import com.coma.client.widgets.MessageFrame;
@@ -77,7 +77,7 @@ public class SaveModel2 {
 				problem.setModelString(data.get("message"));
 				
 				//Save problem
-				databaseConnection.createNewProblem(User.getInstance().getUserId(), Settings.groupId, Settings.activegroupModelId, problem, new AsyncCallback<Void>() {		
+				databaseConnection.createNewProblem(User.getInstance().getUserId(), Settings.groupId, Settings.activegroupModelID, problem, new AsyncCallback<Void>() {		
 					@Override
 					public void onFailure(Throwable caught) {
 					}
@@ -85,7 +85,7 @@ public class SaveModel2 {
 					@Override
 					public void onSuccess(Void result) {						
 						Comav25.GetInstance().getMainWinPanel().clear();
-						Comav25.GetInstance().getMainWinPanel().add(new Label("Problem saved!"));
+						Comav25.GetInstance().getMainWinPanel().add(new Label("Problem updated!"));
 					}
 				});	
 
@@ -93,7 +93,44 @@ public class SaveModel2 {
 		});
 		oryxFrame.sendJSON(oryxCmd);
 	}
+	
+	public void updateProblem(MessageFrame orFrame, final ProblemClass problem){		
+		final MessageFrame oryxFrame = orFrame;
+		
+		HashMap<String, String> oryxCmd = new HashMap<String, String>();
+		oryxCmd.put("target", "oryx");
+		oryxCmd.put("action", "sendshapes");
+		oryxCmd.put("message", "");
+		oryxFrame.removeAllCallbackHandlers();
+		oryxFrame.addCallbackHandler(new CallbackHandler() {
+			@Override
+			public void callBack(final HashMap<String, String> data) {
+				oryxFrame.removeAllCallbackHandlers();
+				if (!data.get("action").equals("receiveshapes")) {
+					// Display error message that editor does not respond
+					return;
+				}
+				
+				// Add the model that is in variable "message" (very long string/text)
+				problem.setModelString(data.get("message"));
+				
+				//Save problem
+				databaseConnection.updateProblem(problem, new AsyncCallback<Void>() {		
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
+					@Override
+					public void onSuccess(Void result) {						
+						Comav25.GetInstance().getMainWinPanel().clear();
+						Comav25.GetInstance().getMainWinPanel().add(new Label("Problem updated!"));
+					}
+				});	
+
+			}
+		});
+		oryxFrame.sendJSON(oryxCmd);
+	}
 
 	private void saveModelToDatabase(int groupID, int userID, String modelName, int modelType, String modelString, int isProposal) {
 		databaseConnection.saveModel(groupID, userID, modelName, modelType, modelString, isProposal,

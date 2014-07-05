@@ -1,26 +1,12 @@
 package com.coma.client.views.problemsopportunities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.coma.client.Comav25;
 import com.coma.client.DatabaseConnection;
 import com.coma.client.DatabaseConnectionAsync;
-import com.coma.client.classes.ProblemClass;
-import com.coma.client.classes.ProblemImpact;
-import com.coma.client.classes.User;
-import com.coma.client.classes.UserType;
-import com.coma.client.helpers.Settings;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sencha.gxt.widget.core.client.button.TextButton;
-import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 public class AddChangeProblems {
 	

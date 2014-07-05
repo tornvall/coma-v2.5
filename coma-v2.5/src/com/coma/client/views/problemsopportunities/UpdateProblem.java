@@ -55,7 +55,7 @@ import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.SimpleComboBox;
 import com.sencha.gxt.widget.core.client.info.Info;
 
-public class AddProblem extends AProblemView{
+public class UpdateProblem extends AProblemView {
 
 	private MessageFrame oryxFrame = null;
 	private Panel viewPanel = null;
@@ -65,6 +65,8 @@ public class AddProblem extends AProblemView{
 	private AProblemView instance = null;
 	private SelectionModel<ProblemImpact> selectionModel = null;
 	private int nextImpactId = 0;
+	
+	private ProblemClass problem;
 	
 	//Input
 	private TextBox problemNameTextBox;
@@ -78,11 +80,13 @@ public class AddProblem extends AProblemView{
 	private final DatabaseConnectionAsync databaseConnection = GWT
 			.create(DatabaseConnection.class);	
 	
-	public AddProblem(){		
+	public UpdateProblem(){
+
 	}	
 	
-	public Panel getNewView(){				
-		this.viewPanel = initAddProblemView();
+	public Panel getUpdateView(ProblemClass problem){
+		this.problem = problem;		
+		this.viewPanel = initUpdateProblemView();
 		
 		return this.viewPanel;
 	}		
@@ -98,7 +102,7 @@ public class AddProblem extends AProblemView{
 		selectionModel.setSelected(impact, true);
 	}
 	
-	private Panel initAddProblemView(){				
+	private Panel initUpdateProblemView(){				
 		instance = this;
 		VerticalPanel panel = new VerticalPanel();
 		HorizontalPanel headerPanel = new HorizontalPanel();
@@ -110,10 +114,9 @@ public class AddProblem extends AProblemView{
 		this.initializeOryxFrame();
 		mainPanel.add(oryxFrame);	
 		oryxFrame.setVisible(true);
-		//Loads latest activegroupmodel
-		//new LoadModel2().getActiveGroupModelFromDatabase(oryxFrame);
-		//Loads original
-		new LoadModel2().getModelFromDatabase(Settings.groupModelId, oryxFrame);
+		
+		//Load model				
+		new LoadModel2().loadModelFromProblem(this.problem.getModelString(), oryxFrame);
 		
 		panel.add(headerPanel);
 		panel.add(mainPanel);
@@ -129,6 +132,7 @@ public class AddProblem extends AProblemView{
 		HorizontalPanel problemNameHorizontalPanel = new HorizontalPanel();
 		Label problemNameLabel = new Label("Problem name*:");
 		problemNameTextBox = new TextBox();
+		problemNameTextBox.setText(this.problem.getName());
 		problemNameHorizontalPanel.add(problemNameLabel);
 		problemNameHorizontalPanel.add(problemNameTextBox);
 		
@@ -136,6 +140,7 @@ public class AddProblem extends AProblemView{
 		HorizontalPanel problemDescHorizontalPanel = new HorizontalPanel();
 		Label problemDescLabel = new Label("Description*:");
 		problemDescTextBox = new TextArea();
+		problemDescTextBox.setText(this.problem.getDescription());
 		problemDescHorizontalPanel.add(problemDescLabel);
 		problemDescHorizontalPanel.add(problemDescTextBox);
 		
@@ -148,6 +153,12 @@ public class AddProblem extends AProblemView{
 		for(ProblemSeverity severity: ProblemSeverity.values()){
 			problemSeverityListBox.addItem(severity.toString());
 		}
+		//Add Severity selection
+		for(int i = 0; i < problemSeverityListBox.getItemCount(); i++){
+			if(problemSeverityListBox.getItemText(i).equals(problem.getSeverity().toString())){
+				problemSeverityListBox.setSelectedIndex(i);
+			}
+		}
 		problemSeverityHorizontalPanel.add(problemSeverityLabel);
 		problemSeverityHorizontalPanel.add(problemSeverityListBox);
 		
@@ -157,6 +168,12 @@ public class AddProblem extends AProblemView{
 		problemEvolutionListBox = new ListBox();
 		for(ProblemEvolution evolution: ProblemEvolution.values()){
 			problemEvolutionListBox.addItem(evolution.toString());
+		}
+		//Add Evolution selection
+		for(int i = 0; i < problemEvolutionListBox.getItemCount(); i++){
+			if(problemEvolutionListBox.getItemText(i).equals(problem.getEvolution().toString())){
+				problemEvolutionListBox.setSelectedIndex(i);
+			}
 		}
 		problemEvolutionHorizontalPanel.add(problemEvolutionLabel);
 		problemEvolutionHorizontalPanel.add(problemEvolutionListBox);
@@ -168,6 +185,12 @@ public class AddProblem extends AProblemView{
 		for(ProblemUrgency urgency: ProblemUrgency.values()){
 			problemUrgencyListBox.addItem(urgency.toString());
 		}
+		//Add Urgency selection
+		for(int i = 0; i < problemUrgencyListBox.getItemCount(); i++){
+			if(problemUrgencyListBox.getItemText(i).equals(problem.getUrgency().toString())){
+				problemUrgencyListBox.setSelectedIndex(i);
+			}
+		}
 		problemUrgencyHorizontalPanel.add(problemUrgencyLabel);
 		problemUrgencyHorizontalPanel.add(problemUrgencyListBox);
 		
@@ -178,6 +201,12 @@ public class AddProblem extends AProblemView{
 		for(ProblemOccurence occurence: ProblemOccurence.values()){
 			problemOccurenceListBox.addItem(occurence.toString());
 		}
+		//Add Occurence selection
+		for(int i = 0; i < problemOccurenceListBox.getItemCount(); i++){
+			if(problemOccurenceListBox.getItemText(i).equals(problem.getOccurence().toString())){
+				problemOccurenceListBox.setSelectedIndex(i);
+			}
+		}
 		problemOccurenceHorizontalPanel.add(problemOccurenceLabel);
 		problemOccurenceHorizontalPanel.add(problemOccurenceListBox);
 		
@@ -185,6 +214,7 @@ public class AddProblem extends AProblemView{
 		HorizontalPanel problemExplanationHorizontalPanel = new HorizontalPanel();
 		Label problemExplanationLabel = new Label("Explanation:");
 		problemExplanationTextBox = new TextArea();		
+		problemExplanationTextBox.setText(problem.getExplanation());
 		problemExplanationHorizontalPanel.add(problemExplanationLabel);
 		problemExplanationHorizontalPanel.add(problemExplanationTextBox);
 		
@@ -199,7 +229,7 @@ public class AddProblem extends AProblemView{
 		saveProblemButton.addSelectHandler(new SelectHandler(){
 			@Override
 			public void onSelect(SelectEvent event) {
-				new SaveModel2().saveProblem(oryxFrame, createProblem());
+				new SaveModel2().updateProblem(oryxFrame, createProblem());
 			}
 		});	
 		
@@ -313,7 +343,7 @@ public class AddProblem extends AProblemView{
 	
 	public void fetchProblemImpactList(){
 		//Get impacts for problem
-		databaseConnection.getProblemImpacts(Settings.problemId, new AsyncCallback<List<ProblemImpact>>() {		
+		databaseConnection.getProblemImpacts(problem.getProblemID(), new AsyncCallback<List<ProblemImpact>>() {		
 			@Override
 			public void onFailure(Throwable caught) {
 			}
@@ -362,7 +392,7 @@ public class AddProblem extends AProblemView{
 	}
 	
 	private ProblemClass createProblem(){
-		ProblemClass problem = new ProblemClass(
+		ProblemClass problem = new ProblemClass(				
 				this.problemNameTextBox.getText(),
 				this.problemDescTextBox.getText(),
 				ProblemSeverity.fromString(problemSeverityListBox.getItemText(problemSeverityListBox.getSelectedIndex())),
@@ -380,6 +410,8 @@ public class AddProblem extends AProblemView{
 				impact.setIsActive(false);
 			}
 		}
+		
+		problem.setProblemID(this.problem.getProblemID());
 		
 		return problem;		
 	}
